@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sinflix/views/register.dart';
-import '../blocs/login/login_bloc.dart';
-import '../blocs/login/login_event.dart';
-import '../blocs/login/login_state.dart';
+import '../blocs/register/register_bloc.dart';
+import '../blocs/register/register_event.dart';
+import '../blocs/register/register_state.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/text_styles.dart';
-import '../utils/constants/strings.dart';
 import '../utils/constants/icons.dart';
 
-class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+class RegisterView extends StatelessWidget {
+  const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => LoginBloc(),
+      create: (_) => RegisterBloc(),
       child: Scaffold(
         backgroundColor: AppColors.background,
         body: Center(
@@ -27,14 +25,14 @@ class LoginView extends StatelessWidget {
                 color: AppColors.background,
                 borderRadius: BorderRadius.circular(32),
               ),
-              child: BlocBuilder<LoginBloc, LoginState>(
+              child: BlocBuilder<RegisterBloc, RegisterState>(
                 builder: (context, state) {
-                  final bloc = context.read<LoginBloc>();
+                  final bloc = context.read<RegisterBloc>();
                   return Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        AppStrings.welcome,
+                        "Hoşgeldiniz",
                         style: AppTextStyles.headline,
                         textAlign: TextAlign.center,
                       ),
@@ -49,6 +47,35 @@ class LoginView extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 32),
+                      // Ad Soyad
+                      TextField(
+                        onChanged: (value) => bloc.add(NameChanged(value)),
+                        style: AppTextStyles.input,
+                        decoration: InputDecoration(
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Image.asset(AppIcons.user, width: 24, height: 24),
+                          ),
+                          hintText: "Ad Soyad",
+                          hintStyle: AppTextStyles.hint,
+                          filled: true,
+                          fillColor: AppColors.inputBackground,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: AppColors.border),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: AppColors.border),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: AppColors.red),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
                       // E-Posta
                       TextField(
                         onChanged: (value) => bloc.add(EmailChanged(value)),
@@ -58,7 +85,7 @@ class LoginView extends StatelessWidget {
                             padding: const EdgeInsets.all(12.0),
                             child: Image.asset(AppIcons.mail, width: 24, height: 24),
                           ),
-                          hintText: AppStrings.email,
+                          hintText: "E-Posta",
                           hintStyle: AppTextStyles.hint,
                           filled: true,
                           fillColor: AppColors.inputBackground,
@@ -95,7 +122,44 @@ class LoginView extends StatelessWidget {
                             ),
                             onPressed: () => bloc.add(TogglePasswordVisibility()),
                           ),
-                          hintText: AppStrings.password,
+                          hintText: "Şifre",
+                          hintStyle: AppTextStyles.hint,
+                          filled: true,
+                          fillColor: AppColors.inputBackground,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: AppColors.border),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: AppColors.border),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(color: AppColors.red),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      // Şifre Tekrar
+                      TextField(
+                        onChanged: (value) => bloc.add(PasswordAgainChanged(value)),
+                        obscureText: !state.isPasswordAgainVisible,
+                        style: AppTextStyles.input,
+                        decoration: InputDecoration(
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Image.asset(AppIcons.password, width: 24, height: 24),
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              state.isPasswordAgainVisible ? Icons.visibility : Icons.visibility_off,
+                              color: AppColors.border,
+                            ),
+                            onPressed: () => bloc.add(TogglePasswordAgainVisibility()),
+                          ),
+                          hintText: "Şifre Tekrar",
                           hintStyle: AppTextStyles.hint,
                           filled: true,
                           fillColor: AppColors.inputBackground,
@@ -115,31 +179,54 @@ class LoginView extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      // Şifremi unuttum
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: TextButton(
-                          onPressed: () {},
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.zero,
-                            minimumSize: Size(0, 0),
-                            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      // Kullanıcı Sözleşmesi
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: state.agreementChecked,
+                            onChanged: (_) => bloc.add(AgreementToggled()),
+                            activeColor: AppColors.red,
                           ),
-                          child: Text(
-                            AppStrings.forgotPassword,
-                            style: AppTextStyles.link,
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                text: "Kullanıcı sözleşmesini ",
+                                style: AppTextStyles.caption,
+                                children: [
+                                  TextSpan(
+                                    text: "okudum ve kabul ediyorum.",
+                                    style: AppTextStyles.caption.copyWith(
+                                      color: AppColors.white,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: " Bu sözleşmeyi okuyarak devam ediniz lütfen.",
+                                    style: AppTextStyles.caption,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
+                      if (state.error != null) ...[
+                        const SizedBox(height: 8),
+                        Text(
+                          state.error!,
+                          style: AppTextStyles.caption.copyWith(color: AppColors.error),
+                        ),
+                      ],
                       const SizedBox(height: 8),
-                      // Giriş Yap Butonu
+                      // Şimdi Kaydol Butonu
                       SizedBox(
                         width: double.infinity,
                         height: 56,
                         child: ElevatedButton(
                           onPressed: state.isLoading
                               ? null
-                              : () => bloc.add(LoginSubmitted()),
+                              : () => bloc.add(RegisterSubmitted()),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.red,
                             shape: RoundedRectangleBorder(
@@ -151,18 +238,11 @@ class LoginView extends StatelessWidget {
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           )
                               : Text(
-                            AppStrings.login,
+                            "Şimdi Kaydol",
                             style: AppTextStyles.button,
                           ),
                         ),
                       ),
-                      if (state.error != null) ...[
-                        const SizedBox(height: 8),
-                        Text(
-                          state.error!,
-                          style: AppTextStyles.caption.copyWith(color: AppColors.error),
-                        ),
-                      ],
                       const SizedBox(height: 24),
                       // Sosyal Medya Butonları
                       Row(
@@ -174,22 +254,20 @@ class LoginView extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 24),
-                      // Kayıt Ol
+                      // Giriş Yap
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Bir hesabın yok mu? ",
+                            "Zaten bir hesabın var mı? ",
                             style: AppTextStyles.caption,
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(builder: (_) => const RegisterView()),
-                              );
+                              Navigator.of(context).pop(); // Login ekranına dön
                             },
                             child: Text(
-                              "Kayıt Ol!",
+                              "Giriş Yap!",
                               style: AppTextStyles.caption.copyWith(
                                 color: AppColors.white,
                                 fontWeight: FontWeight.bold,
