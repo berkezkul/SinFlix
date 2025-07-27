@@ -6,5 +6,6 @@ class AppIcons {
   static const String google = 'assets/images/icons/google.png';
   static const String apple = 'assets/images/icons/apple.png';
   static const String facebook = 'assets/images/icons/facebook.png';
+  static const String add = 'assets/images/icons/add_photo.png';
 
 }

@@ -6,6 +6,7 @@ import '../blocs/register/register_state.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/text_styles.dart';
 import '../utils/constants/icons.dart';
+import 'add_profile_photo.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
@@ -224,6 +225,18 @@ class RegisterView extends StatelessWidget {
                         width: double.infinity,
                         height: 56,
                         child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => const ProfilePhotoView()),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          /*
                           onPressed: state.isLoading
                               ? null
                               : () => bloc.add(RegisterSubmitted()),
@@ -233,6 +246,10 @@ class RegisterView extends StatelessWidget {
                               borderRadius: BorderRadius.circular(16),
                             ),
                           ),
+
+                           */
+
+
                           child: state.isLoading
                               ? const CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
