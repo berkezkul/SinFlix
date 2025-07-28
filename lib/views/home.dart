@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import '../utils/constants/colors.dart';
-import '../utils/constants/movies.dart';
 import '../utils/constants/text_styles.dart';
 import '../utils/constants/dimens.dart';
+import '../utils/constants/movies.dart';
+import '../repositories/movie_repository.dart';
+import '../utils/helpers/token_storage.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -14,6 +16,44 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int _currentIndex = 0;
   bool _isFavorite = false;
+  final MovieRepository _movieRepository = MovieRepository();
+
+  @override
+  void initState() {
+    super.initState();
+    _testMovieAPI();
+  }
+
+  Future<void> _testMovieAPI() async {
+    print('🎬 Movie API Test başlıyor...');
+    
+    try {
+      // Token'ı al
+      final token = await TokenStorage.getToken();
+      print('🔑 Token: ${token?.substring(0, 20)}...');
+      
+      // Film listesi çek
+      final moviesData = await _movieRepository.getMovies(page: 1, token: token);
+      
+      if (moviesData != null) {
+        print('✅ API Test Başarılı!');
+        print('📊 Total Pages: ${moviesData['totalPages']}');
+        print('📄 Current Page: ${moviesData['currentPage']}');
+        print('🎥 Movies Count: ${moviesData['movies']?.length}');
+        
+        if (moviesData['movies'] != null && moviesData['movies'].isNotEmpty) {
+          final firstMovie = moviesData['movies'][0];
+          print('🎬 İlk Film: ${firstMovie.title}');
+          print('📖 Açıklama: ${firstMovie.description}');
+          print('🖼️ Poster: ${firstMovie.posterUrl}');
+        }
+      } else {
+        print('❌ API Test Başarısız - Null response');
+      }
+    } catch (e) {
+      print('💥 API Test Hatası: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
