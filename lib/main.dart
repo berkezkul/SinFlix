@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sinflix/views/login.dart';
-import 'package:sinflix/views/home.dart';
-import 'package:sinflix/views/register.dart';
-import 'package:sinflix/views/add_profile_photo.dart';
-import 'package:sinflix/views/profile.dart';
+import 'package:sinflix/views/screens/login.dart';
+import 'package:sinflix/views/screens/home.dart';
+import 'package:sinflix/views/screens/register.dart';
+import 'package:sinflix/views/screens/add_profile_photo.dart';
+import 'package:sinflix/views/screens/profile.dart';
+import 'package:sinflix/views/screens/movies.dart';
 import 'utils/constants/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/profile-photo': (context) => const ProfilePhotoView(),
         '/home': (context) => const HomeView(),
         '/profile': (context) => const ProfileView(),
+        '/movies': (context) => const MoviesView(),
       },
     );
   }

@@ -14,11 +14,17 @@ class Movie {
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
+    // HTTP posterlerini HTTPS'ye çevir
+    String posterUrl = json['posterUrl'] ?? json['Poster'] ?? '';
+    if (posterUrl.startsWith('http://')) {
+      posterUrl = posterUrl.replaceFirst('http://', 'https://');
+    }
+    
     return Movie(
       id: json['id'] ?? json['_id'] ?? '',
       title: json['title'] ?? json['Title'] ?? '', // Backend 'Title' kullanıyor
       description: json['description'] ?? json['Plot'] ?? '', // Backend 'Plot' kullanıyor
-      posterUrl: json['posterUrl'] ?? json['Poster'] ?? '', // Backend 'Poster' kullanıyor
+      posterUrl: posterUrl, // HTTPS'ye çevrilmiş URL
       isFavorite: json['isFavorite'] ?? false,
     );
   }

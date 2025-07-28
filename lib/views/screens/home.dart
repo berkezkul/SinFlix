@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import '../utils/constants/colors.dart';
-import '../utils/constants/text_styles.dart';
-import '../utils/constants/dimens.dart';
-import '../utils/constants/movies.dart';
-import '../repositories/movie_repository.dart';
-import '../utils/helpers/token_storage.dart';
+import '../../utils/constants/colors.dart';
+import '../../utils/constants/text_styles.dart';
+import '../../utils/constants/dimens.dart';
+import '../../utils/constants/movies.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -16,44 +14,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   int _currentIndex = 0;
   bool _isFavorite = false;
-  final MovieRepository _movieRepository = MovieRepository();
-
-  @override
-  void initState() {
-    super.initState();
-    _testMovieAPI();
-  }
-
-  Future<void> _testMovieAPI() async {
-    print('🎬 Movie API Test başlıyor...');
-    
-    try {
-      // Token'ı al
-      final token = await TokenStorage.getToken();
-      print('🔑 Token: ${token?.substring(0, 20)}...');
-      
-      // Film listesi çek
-      final moviesData = await _movieRepository.getMovies(page: 1, token: token);
-      
-      if (moviesData != null) {
-        print('✅ API Test Başarılı!');
-        print('📊 Total Pages: ${moviesData['totalPages']}');
-        print('📄 Current Page: ${moviesData['currentPage']}');
-        print('🎥 Movies Count: ${moviesData['movies']?.length}');
-        
-        if (moviesData['movies'] != null && moviesData['movies'].isNotEmpty) {
-          final firstMovie = moviesData['movies'][0];
-          print('🎬 İlk Film: ${firstMovie.title}');
-          print('📖 Açıklama: ${firstMovie.description}');
-          print('🖼️ Poster: ${firstMovie.posterUrl}');
-        }
-      } else {
-        print('❌ API Test Başarısız - Null response');
-      }
-    } catch (e) {
-      print('💥 API Test Hatası: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,10 +88,48 @@ class _HomeViewState extends State<HomeView> {
                 
                 // Film açıklaması
                 Text(
-                  'Community very territories dogpile so. Last they investigation model Daha Fazlası',
+                  'Community very territories dogpile so. Last they investigation model...',
                   style: AppTextStyles.body.copyWith(
                     color: AppColors.white.withOpacity(0.8),
                     height: 1.4,
+                  ),
+                ),
+                
+                const SizedBox(height: 16),
+                
+                // Daha Fazlası butonu
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/movies');
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.movie_outlined,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Tüm Filmleri Keşfet',
+                          style: AppTextStyles.button.copyWith(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -140,7 +138,7 @@ class _HomeViewState extends State<HomeView> {
           
           // Favorileme butonu
           Positioned(
-            bottom: 160,
+            bottom: 180,
             right: AppDimens.pagePadding,
             child: GestureDetector(
               onTap: () {
@@ -227,9 +225,6 @@ class _HomeViewState extends State<HomeView> {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  setState(() {
-                    _currentIndex = 1;
-                  });
                   Navigator.of(context).pushNamed('/profile');
                 },
                 child: Container(

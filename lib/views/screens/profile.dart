@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/profile/profile_bloc.dart';
-import '../blocs/profile/profile_event.dart';
-import '../blocs/profile/profile_state.dart';
-import '../blocs/offer/offer_bloc.dart';
-import '../blocs/offer/offer_event.dart';
-import '../blocs/offer/offer_state.dart';
-import '../repositories/user_repository.dart';
-import '../utils/constants/colors.dart';
-import '../utils/constants/text_styles.dart';
-import '../utils/constants/dimens.dart';
+import '../../blocs/profile/profile_bloc.dart';
+import '../../blocs/profile/profile_event.dart';
+import '../../blocs/profile/profile_state.dart';
+import '../../blocs/offer/offer_bloc.dart';
+import '../../blocs/offer/offer_event.dart';
+import '../../blocs/offer/offer_state.dart';
+import '../../repositories/user_repository.dart';
+import '../../utils/constants/colors.dart';
+import '../../utils/constants/text_styles.dart';
+import '../../utils/constants/dimens.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});

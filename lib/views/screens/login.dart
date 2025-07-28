@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sinflix/views/register.dart';
-import '../blocs/auth/auth_bloc.dart';
-import '../blocs/auth/auth_event.dart';
-import '../blocs/auth/auth_state.dart';
-import '../blocs/login/login_bloc.dart';
-import '../blocs/login/login_event.dart';
-import '../blocs/login/login_state.dart';
-import '../repositories/user_repository.dart';
-import '../utils/constants/colors.dart';
-import '../utils/constants/text_styles.dart';
-import '../utils/constants/strings.dart';
-import '../utils/constants/icons.dart';
-import '../utils/helpers/token_storage.dart';
+import 'package:sinflix/views/screens/register.dart';
+import '../../blocs/auth/auth_bloc.dart';
+import '../../blocs/auth/auth_event.dart';
+import '../../blocs/auth/auth_state.dart';
+import '../../blocs/login/login_bloc.dart';
+import '../../blocs/login/login_event.dart';
+import '../../blocs/login/login_state.dart';
+import '../../repositories/user_repository.dart';
+import '../../utils/constants/colors.dart';
+import '../../utils/constants/text_styles.dart';
+import '../../utils/constants/strings.dart';
+import '../../utils/constants/icons.dart';
+import '../../utils/helpers/token_storage.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});

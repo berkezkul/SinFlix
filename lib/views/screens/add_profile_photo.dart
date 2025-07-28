@@ -2,12 +2,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import '../blocs/profile_photo/profile_photo_bloc.dart';
-import '../blocs/profile_photo/profile_photo_event.dart';
-import '../blocs/profile_photo/profile_photo_state.dart';
-import '../utils/constants/colors.dart';
-import '../utils/constants/text_styles.dart';
-import '../utils/constants/icons.dart';
+import '../../blocs/profile_photo/profile_photo_bloc.dart';
+import '../../blocs/profile_photo/profile_photo_event.dart';
+import '../../blocs/profile_photo/profile_photo_state.dart';
+import '../../utils/constants/colors.dart';
+import '../../utils/constants/text_styles.dart';
+import '../../utils/constants/icons.dart';
 
 class ProfilePhotoView extends StatelessWidget {
   const ProfilePhotoView({super.key});

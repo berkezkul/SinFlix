@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../blocs/auth/auth_bloc.dart';
-import '../blocs/auth/auth_event.dart';
-import '../blocs/auth/auth_state.dart';
-import '../blocs/register/register_bloc.dart';
-import '../blocs/register/register_event.dart';
-import '../blocs/register/register_state.dart';
-import '../repositories/user_repository.dart';
-import '../utils/constants/colors.dart';
-import '../utils/constants/text_styles.dart';
-import '../utils/constants/icons.dart';
+import '../../blocs/auth/auth_bloc.dart';
+import '../../blocs/auth/auth_event.dart';
+import '../../blocs/auth/auth_state.dart';
+import '../../blocs/register/register_bloc.dart';
+import '../../blocs/register/register_event.dart';
+import '../../blocs/register/register_state.dart';
+import '../../repositories/user_repository.dart';
+import '../../utils/constants/colors.dart';
+import '../../utils/constants/text_styles.dart';
+import '../../utils/constants/icons.dart';
 import 'add_profile_photo.dart';
-import '../utils/helpers/token_storage.dart';
+import '../../utils/helpers/token_storage.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
