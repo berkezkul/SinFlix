@@ -7,6 +7,7 @@ import '../../repositories/movie_repository.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/text_styles.dart';
 import '../../utils/constants/dimens.dart';
+import 'movie_detail.dart';
 
 class MoviesView extends StatefulWidget {
   const MoviesView({super.key});
@@ -239,104 +240,116 @@ class _MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: AppColors.inputBackground,
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Film posteri
-          Expanded(
-            flex: 3,
-            child: Stack(
-              children: [
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(12),
-                      topRight: Radius.circular(12),
-                    ),
-                    image: DecorationImage(
-                      image: NetworkImage(movie.posterUrl),
-                      fit: BoxFit.cover,
-                      onError: (exception, stackTrace) {},
-                    ),
-                  ),
-                  child: movie.posterUrl.isEmpty
-                      ? Container(
-                          color: AppColors.border,
-                          child: const Icon(
-                            Icons.movie,
-                            color: AppColors.lightGreyText,
-                            size: 48,
-                          ),
-                        )
-                      : null,
-                ),
-                
-                // Favorileme butonu
-                Positioned(
-                  top: 8,
-                  right: 8,
-                  child: GestureDetector(
-                    onTap: onFavoriteToggle,
-                    child: Container(
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.7),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        movie.isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: movie.isFavorite ? AppColors.red : Colors.white,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => MovieDetailView(movie: movie),
           ),
-          
-          // Film bilgileri
-          Expanded(
-            flex: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: AppColors.inputBackground,
+          border: Border.all(color: AppColors.border),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Film posteri
+            Expanded(
+              flex: 3,
+              child: Stack(
                 children: [
-                  Text(
-                    movie.title,
-                    style: AppTextStyles.body.copyWith(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 4),
-                  Expanded(
-                    child: Text(
-                      movie.description,
-                      style: AppTextStyles.body.copyWith(
-                        color: AppColors.lightGreyText,
-                        fontSize: 12,
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                      image: DecorationImage(
+                        image: NetworkImage(movie.posterUrl),
+                        fit: BoxFit.cover,
+                        onError: (exception, stackTrace) {},
+                      ),
+                    ),
+                    child: movie.posterUrl.isEmpty
+                        ? Container(
+                            color: AppColors.border,
+                            child: const Icon(
+                              Icons.movie,
+                              color: AppColors.lightGreyText,
+                              size: 48,
+                            ),
+                          )
+                        : null,
+                  ),
+                  
+                  // Favorileme butonu
+                  Positioned(
+                    top: 8,
+                    right: 8,
+                    child: GestureDetector(
+                      onTap: () {
+                        // Event'i engelle, sadece favorileme yapılsın
+                        onFavoriteToggle();
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.7),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          movie.isFavorite ? Icons.favorite : Icons.favorite_border,
+                          color: movie.isFavorite ? AppColors.red : Colors.white,
+                          size: 20,
+                        ),
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-          ),
-        ],
+            
+            // Film bilgileri
+            Expanded(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      movie.title,
+                      style: AppTextStyles.body.copyWith(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    const SizedBox(height: 4),
+                    Expanded(
+                      child: Text(
+                        movie.description,
+                        style: AppTextStyles.body.copyWith(
+                          color: AppColors.lightGreyText,
+                          fontSize: 12,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
