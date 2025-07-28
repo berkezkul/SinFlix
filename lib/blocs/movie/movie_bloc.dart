@@ -3,6 +3,7 @@ import 'movie_event.dart';
 import 'movie_state.dart';
 import '../../repositories/movie_repository.dart';
 import '../../utils/helpers/token_storage.dart';
+import '../../models/movie.dart'; // Added import for Movie model
 
 class MovieBloc extends Bloc<MovieEvent, MovieState> {
   final MovieRepository movieRepository;
@@ -22,12 +23,14 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       final moviesData = await movieRepository.getMovies(page: 1, token: token);
       
       if (moviesData != null) {
+        final movies = moviesData['movies'] as List<Movie>; // Movie listesi olarak cast
+        print('🎬 Initial load - movies count: ${movies.length}');
+        
         emit(state.copyWith(
           isLoading: false,
-          movies: moviesData['movies'],
-          currentPage: moviesData['currentPage'],
-          totalPages: moviesData['totalPages'],
-          hasReachedMax: moviesData['currentPage'] >= moviesData['totalPages'],
+          movies: movies,
+          currentPage: 1,
+          hasReachedMax: false, // İlk yüklemede asla max'a ulaşmış olmayız!
         ));
       } else {
         emit(state.copyWith(
@@ -44,32 +47,57 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 
   Future<void> _onLoadMoreMovies(LoadMoreMovies event, Emitter<MovieState> emit) async {
-    if (state.hasReachedMax || state.isLoadingMore) return;
+    print('🎬 LoadMoreMovies called!');
+    print('🔚 HasReachedMax: ${state.hasReachedMax}');
+    print('⏳ IsLoadingMore: ${state.isLoadingMore}');
     
+    if (state.hasReachedMax || state.isLoadingMore) {
+      print('❌ LoadMoreMovies blocked - HasReachedMax: ${state.hasReachedMax}, IsLoadingMore: ${state.isLoadingMore}');
+      return;
+    }
+    
+    print('✅ LoadMoreMovies proceeding...');
     emit(state.copyWith(isLoadingMore: true));
     
     try {
       final token = await TokenStorage.getToken();
       final nextPage = state.currentPage + 1;
+      print('📄 Loading page: $nextPage');
+      
       final moviesData = await movieRepository.getMovies(page: nextPage, token: token);
       
       if (moviesData != null) {
-        final newMovies = List.of(state.movies)..addAll(moviesData['movies']);
+        final newMovies = moviesData['movies'] as List<Movie>; // Movie listesi olarak cast
+        print('🎬 New movies count: ${newMovies.length}');
         
-        emit(state.copyWith(
-          isLoadingMore: false,
-          movies: newMovies,
-          currentPage: moviesData['currentPage'],
-          totalPages: moviesData['totalPages'],
-          hasReachedMax: moviesData['currentPage'] >= moviesData['totalPages'],
-        ));
+        if (newMovies.isEmpty) {
+          // Boş sayfa geldi, maksimuma ulaştık
+          print('🔚 No more movies - setting hasReachedMax to true');
+          emit(state.copyWith(
+            isLoadingMore: false,
+            hasReachedMax: true,
+          ));
+        } else {
+          // Yeni filmler var, listeye ekle
+          final allMovies = List<Movie>.from(state.movies)..addAll(newMovies);
+          print('🎬 Total movies after adding: ${allMovies.length}');
+          
+          emit(state.copyWith(
+            isLoadingMore: false,
+            movies: allMovies,
+            currentPage: nextPage,
+            hasReachedMax: false,
+          ));
+        }
       } else {
+        print('❌ moviesData is null');
         emit(state.copyWith(
           isLoadingMore: false,
           error: "Daha fazla film yüklenemedi",
         ));
       }
     } catch (e) {
+      print('❌ LoadMoreMovies error: $e');
       emit(state.copyWith(
         isLoadingMore: false,
         error: "Hata oluştu: $e",
@@ -85,12 +113,14 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       final moviesData = await movieRepository.getMovies(page: 1, token: token);
       
       if (moviesData != null) {
+        final movies = moviesData['movies'] as List<Movie>; // Movie listesi olarak cast
+        print('🔄 Refresh - movies count: ${movies.length}');
+        
         emit(state.copyWith(
           isRefreshing: false,
-          movies: moviesData['movies'],
-          currentPage: moviesData['currentPage'],
-          totalPages: moviesData['totalPages'],
-          hasReachedMax: moviesData['currentPage'] >= moviesData['totalPages'],
+          movies: movies,
+          currentPage: 1,
+          hasReachedMax: false, // Refresh sonrası da max'a ulaşmış olmayız!
         ));
       } else {
         emit(state.copyWith(

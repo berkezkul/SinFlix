@@ -8,7 +8,6 @@ class MovieState extends Equatable {
   final bool isRefreshing;
   final String? error;
   final int currentPage;
-  final int totalPages;
   final bool hasReachedMax;
 
   const MovieState({
@@ -18,7 +17,6 @@ class MovieState extends Equatable {
     this.isRefreshing = false,
     this.error,
     this.currentPage = 1,
-    this.totalPages = 1,
     this.hasReachedMax = false,
   });
 
@@ -29,7 +27,6 @@ class MovieState extends Equatable {
     bool? isRefreshing,
     String? error,
     int? currentPage,
-    int? totalPages,
     bool? hasReachedMax,
   }) {
     return MovieState(
@@ -39,7 +36,6 @@ class MovieState extends Equatable {
       isRefreshing: isRefreshing ?? this.isRefreshing,
       error: error ?? this.error,
       currentPage: currentPage ?? this.currentPage,
-      totalPages: totalPages ?? this.totalPages,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
@@ -52,7 +48,6 @@ class MovieState extends Equatable {
         isRefreshing,
         error,
         currentPage,
-        totalPages,
         hasReachedMax,
       ];
 } 

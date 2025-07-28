@@ -32,7 +32,11 @@ class _MoviesViewState extends State<MoviesView> {
   }
 
   void _onScroll() {
+    print('🔄 Scroll Event - Current: ${_scrollController.offset}, Max: ${_scrollController.position.maxScrollExtent}');
+    print('🔄 Is Bottom: $_isBottom, MovieBloc exists: ${_movieBloc != null}');
+    
     if (_movieBloc != null && _isBottom) {
+      print('🚀 Triggering LoadMoreMovies...');
       _movieBloc!.add(LoadMoreMovies());
     }
   }
@@ -41,7 +45,9 @@ class _MoviesViewState extends State<MoviesView> {
     if (!_scrollController.hasClients) return false;
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
-    return currentScroll >= (maxScroll * 0.9);
+    // Daha agresif trigger - %80'de başlat
+    final isAtBottom = currentScroll >= (maxScroll * 0.8);
+    return isAtBottom;
   }
 
   @override
@@ -74,6 +80,14 @@ class _MoviesViewState extends State<MoviesView> {
                 fit: BoxFit.contain,
               ),
               actions: [
+                // Manuel test butonu ekle
+                IconButton(
+                  icon: const Icon(Icons.skip_next, color: Colors.white),
+                  onPressed: () {
+                    print('🧪 Manual LoadMoreMovies test');
+                    context.read<MovieBloc>().add(LoadMoreMovies());
+                  },
+                ),
                 IconButton(
                   icon: const Icon(Icons.search, color: Colors.white),
                   onPressed: () {
@@ -87,6 +101,21 @@ class _MoviesViewState extends State<MoviesView> {
             ),
             body: BlocBuilder<MovieBloc, MovieState>(
               builder: (context, state) {
+                // Daha detaylı debug logging
+                print('🎬 ===== Movies State Debug =====');
+                print('📊 Movies Count: ${state.movies.length}');
+                print('📄 Current Page: ${state.currentPage}');
+                print('🔚 Has Reached Max: ${state.hasReachedMax}');
+                print('⏳ Is Loading: ${state.isLoading}');
+                print('⏳ Is Loading More: ${state.isLoadingMore}');
+                print('⏳ Is Refreshing: ${state.isRefreshing}');
+                print('❌ Error: ${state.error}');
+                if (state.movies.isNotEmpty) {
+                  print('🎭 First Movie: ${state.movies.first.title}');
+                  print('🎭 Last Movie: ${state.movies.last.title}');
+                }
+                print('🎬 ==============================');
+                
                 if (state.isLoading && state.movies.isEmpty) {
                   return const Center(
                     child: CircularProgressIndicator(color: AppColors.red),

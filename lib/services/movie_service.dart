@@ -23,12 +23,14 @@ class MovieService {
       
       // Backend nested response formatı: {"response": {...}, "data": {"movies": [...]}}
       if (data['data'] != null && data['data']['movies'] != null) {
+        final movies = (data['data']['movies'] as List)
+            .map((movie) => Movie.fromJson(movie))
+            .toList();
+            
         return {
-          'movies': (data['data']['movies'] as List)
-              .map((movie) => Movie.fromJson(movie))
-              .toList(),
-          'totalPages': data['data']['totalPages'] ?? 1, // Default değer
-          'currentPage': data['data']['currentPage'] ?? 1, // Default değer
+          'movies': movies,
+          'currentPage': page,
+          'hasMorePages': movies.isNotEmpty, // Film varsa daha fazla sayfa olabilir
         };
       }
     }
