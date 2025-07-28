@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../blocs/profile/profile_bloc.dart';
 import '../blocs/profile/profile_event.dart';
 import '../blocs/profile/profile_state.dart';
+import '../blocs/offer/offer_bloc.dart';
+import '../blocs/offer/offer_event.dart';
+import '../blocs/offer/offer_state.dart';
 import '../repositories/user_repository.dart';
 import '../utils/constants/colors.dart';
 import '../utils/constants/text_styles.dart';
@@ -20,13 +23,17 @@ class _ProfileViewState extends State<ProfileView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ProfileBloc(UserRepository())..add(LoadProfile()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => ProfileBloc(UserRepository())..add(LoadProfile())),
+        BlocProvider(create: (_) => OfferBloc()),
+      ],
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
           backgroundColor: AppColors.background,
           elevation: 0,
+          centerTitle: true, // Bu AppBar title'ını ortalar
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
@@ -39,28 +46,32 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           ),
           actions: [
-            BlocListener<ProfileBloc, ProfileState>(
-              listener: (context, state) {
-                if (state is ProfileInitial) {
-                  // Logout başarılı, login sayfasına git
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    '/login',
-                    (route) => false,
-                  );
-                }
-              },
-              child: TextButton(
-                onPressed: () {
-                  context.read<ProfileBloc>().add(LogoutRequested());
-                },
-                child: Text(
-                  'Çıkış Takibi',
-                  style: AppTextStyles.button.copyWith(
-                    color: AppColors.red,
-                    fontSize: 14,
+            BlocBuilder<OfferBloc, OfferState>(
+              builder: (context, offerState) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: TextButton(
+                    onPressed: () {
+                      context.read<OfferBloc>().add(ShowOffer());
+                      _showOfferBottomSheet(context);
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: AppColors.red,
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    child: Text(
+                      'Sınırlı Teklif',
+                      style: AppTextStyles.button.copyWith(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ],
         ),
@@ -374,6 +385,293 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ],
                   ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showOfferBottomSheet(BuildContext context) {
+    final offerBloc = context.read<OfferBloc>(); // Parent context'ten al
+    
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (modalContext) => BlocProvider.value(
+        value: offerBloc, // Direkt instance geçir
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.85,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Color(0xFF8B1538),
+                Color(0xFF4A0E1F),
+                Color(0xFF2C0912),
+              ],
+            ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          child: Column(
+            children: [
+              // Başlık kısmı
+              Container(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    // Drag handle
+                    Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    
+                    Text(
+                      'Sınırlı Teklif',
+                      style: AppTextStyles.headline.copyWith(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    
+                    Text(
+                      'Jeton paketlerin seçerken bonus\nkazanım ve yeni başlamak istiyorsun.',
+                      textAlign: TextAlign.center,
+                      style: AppTextStyles.body.copyWith(
+                        color: Colors.white.withOpacity(0.8),
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              
+              // Avantajlar kısmı
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Alacağınız Bonuslar',
+                      style: AppTextStyles.headline.copyWith(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        _buildBonusItem(Icons.star, 'Premium\nHesap'),
+                        _buildBonusItem(Icons.favorite, 'Daha\nFazla Beğenme'),
+                        _buildBonusItem(Icons.arrow_upward, 'Öne\nÇıkarma'),
+                        _buildBonusItem(Icons.volunteer_activism, 'Daha\nFazla Beğeni'),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              
+              const SizedBox(height: 30),
+              
+              // Paket seçimi
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Kredi alımak için bir jeton paketi seçin',
+                        style: AppTextStyles.body.copyWith(
+                          color: Colors.white,
+                          fontSize: 16,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      
+                      BlocBuilder<OfferBloc, OfferState>(
+                        builder: (context, state) {
+                          return Row(
+                            children: [
+                              _buildPackageCard(0, '200', '330', '£99,99', '10%', state.selectedPackageIndex == 0),
+                              const SizedBox(width: 12),
+                              _buildPackageCard(1, '2000', '3.375', '£799,99', '75%', state.selectedPackageIndex == 1),
+                              const SizedBox(width: 12),
+                              _buildPackageCard(2, '1000', '1.350', '£399,99', '35%', state.selectedPackageIndex == 2),
+                            ],
+                          );
+                        },
+                      ),
+                      
+                      const SizedBox(height: 20),
+                      
+                      // Satın al butonu
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Paket satın alındı!'),
+                                backgroundColor: Colors.green,
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                          ),
+                          child: Text(
+                            'Tüm Jetonları Gör',
+                            style: AppTextStyles.button.copyWith(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBonusItem(IconData icon, String title) {
+    return Column(
+      children: [
+        Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.2),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(
+            icon,
+            color: Colors.white,
+            size: 24,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: AppTextStyles.body.copyWith(
+            color: Colors.white,
+            fontSize: 10,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPackageCard(int index, String tokens, String bonus, String price, String discount, bool isSelected) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () {
+          context.read<OfferBloc>().add(SelectPackage(index));
+        },
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: isSelected ? AppColors.red : Colors.white.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: isSelected ? Colors.white : Colors.transparent,
+              width: 2,
+            ),
+          ),
+          child: Column(
+            children: [
+              if (discount != '10%') // En soldaki paket için discount yok
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: index == 1 ? Colors.purple : AppColors.red,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    discount,
+                    style: AppTextStyles.body.copyWith(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 8),
+              
+              Text(
+                tokens,
+                style: AppTextStyles.headline.copyWith(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              
+              Text(
+                bonus,
+                style: AppTextStyles.headline.copyWith(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              
+              Text(
+                'Jeton',
+                style: AppTextStyles.body.copyWith(
+                  color: Colors.white,
+                  fontSize: 10,
+                ),
+              ),
+              
+              const SizedBox(height: 8),
+              
+              Text(
+                price,
+                style: AppTextStyles.body.copyWith(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              
+              Text(
+                'başına hariçinde',
+                style: AppTextStyles.body.copyWith(
+                  color: Colors.white.withOpacity(0.7),
+                  fontSize: 8,
                 ),
               ),
             ],
