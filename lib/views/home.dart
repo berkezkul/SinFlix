@@ -190,7 +190,7 @@ class _HomeViewState extends State<HomeView> {
                   setState(() {
                     _currentIndex = 1;
                   });
-                  // Profil sayfasına git (şimdilik sadece state değişir)
+                  Navigator.of(context).pushNamed('/profile');
                 },
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),

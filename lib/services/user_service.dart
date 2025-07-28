@@ -30,9 +30,20 @@ class UserService {
         'Authorization': 'Bearer $token',
       },
     );
+    print('Profile API response: ${response.statusCode} - ${response.body}');
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      return User.fromJson(data);
+      print('Profile data to parse: $data');
+      try {
+        // Backend nested response formatında: {"response": {...}, "data": {...}}
+        if (data['data'] != null) {
+          return User.fromJson(data['data']);
+        }
+        return null;
+      } catch (e) {
+        print('User parsing error: $e');
+        return null;
+      }
     }
     return null;
   }
