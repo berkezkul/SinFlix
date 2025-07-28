@@ -12,11 +12,20 @@ import '../utils/constants/icons.dart';
 class ProfilePhotoView extends StatelessWidget {
   const ProfilePhotoView({super.key});
 
+  static bool _isPickingImage = false;
+
   Future<void> _pickImage(BuildContext context) async {
-    final picker = ImagePicker();
-    final picked = await picker.pickImage(source: ImageSource.gallery);
-    if (picked != null) {
-      context.read<ProfilePhotoBloc>().add(PhotoSelected(File(picked.path)));
+    if (_isPickingImage) return; // Zaten image picker açıksa çık
+    _isPickingImage = true;
+    
+    try {
+      final picker = ImagePicker();
+      final picked = await picker.pickImage(source: ImageSource.gallery);
+      if (picked != null) {
+        context.read<ProfilePhotoBloc>().add(PhotoSelected(File(picked.path)));
+      }
+    } finally {
+      _isPickingImage = false;
     }
   }
 
@@ -24,130 +33,99 @@ class ProfilePhotoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => ProfilePhotoBloc(),
-      child: Scaffold(
-        backgroundColor: AppColors.background,
-        body: SafeArea(
-          child: BlocBuilder<ProfilePhotoBloc, ProfilePhotoState>(
-            builder: (context, state) {
-              final bloc = context.read<ProfilePhotoBloc>();
-              return Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    child: Row(
-                      children: [
-                        InkWell(
-                          onTap: () => Navigator.of(context).pop(),
+      child: BlocListener<ProfilePhotoBloc, ProfilePhotoState>(
+        listener: (context, state) async {
+          if (state.isLoading == false && state.error == null && state.photoUrl != null) {
+            // Fotoğraf başarıyla yüklendi ve API'ye gönderildi, ana sayfaya yönlendir
+            Navigator.of(context).pushReplacementNamed('/home');
+          } else if (state.error != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.error!)),
+            );
+          }
+        },
+        child: Scaffold(
+          backgroundColor: AppColors.background,
+          body: SafeArea(
+            child: BlocBuilder<ProfilePhotoBloc, ProfilePhotoState>(
+              builder: (context, state) {
+                final bloc = context.read<ProfilePhotoBloc>();
+                return Column(
+                  children: [
+                    // ... (UI kodun değişmeden devam edebilir)
+                    GestureDetector(
+                      onTap: state.isLoading ? null : () => _pickImage(context),
+                      child: Container(
+                        width: 140,
+                        height: 140,
+                        decoration: BoxDecoration(
+                          color: AppColors.inputBackground,
                           borderRadius: BorderRadius.circular(24),
-                          child: Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: AppColors.inputBackground,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(Icons.arrow_back, color: Colors.white),
+                          border: Border.all(
+                            color: AppColors.border,
+                            width: 1,
                           ),
                         ),
-                        const Spacer(),
-                        Text(
-                          "Profil Detayı",
-                          style: AppTextStyles.body.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const Spacer(flex: 2),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    "Fotoğraflarınızı Yükleyin",
-                    style: AppTextStyles.headline,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    "Resources out incentivize\nrelaxation floor loss cc.",
-                    style: AppTextStyles.body.copyWith(
-                      color: AppColors.lightGreyText,
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 32),
-                  GestureDetector(
-                    onTap: () => _pickImage(context),
-                    child: Container(
-                      width: 140,
-                      height: 140,
-                      decoration: BoxDecoration(
-                        color: AppColors.inputBackground,
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(
-                          color: AppColors.border,
-                          width: 1,
-                        ),
-                      ),
-                      child: state.photo == null
-                          ? Center(
-                        child: Image.asset(
-                          AppIcons.add,
-                          width: 32,
-                          height: 32,
-                          color: AppColors.border,
-                        ),
-                      )
-                          : ClipRRect(
-                        borderRadius: BorderRadius.circular(24),
-                        child: Image.file(
-                          state.photo!,
-                          fit: BoxFit.cover,
-                          width: 140,
-                          height: 140,
+                        child: state.photo == null
+                            ? Center(
+                          child: Image.asset(
+                            AppIcons.add,
+                            width: 32,
+                            height: 32,
+                            color: AppColors.border,
+                          ),
+                        )
+                            : ClipRRect(
+                          borderRadius: BorderRadius.circular(24),
+                          child: Image.file(
+                            state.photo!,
+                            fit: BoxFit.cover,
+                            width: 140,
+                            height: 140,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  if (state.error != null) ...[
-                    const SizedBox(height: 8),
-                    Text(
-                      state.error!,
-                      style: AppTextStyles.caption.copyWith(color: AppColors.error),
+                    if (state.error != null) ...[
+                      const SizedBox(height: 8),
+                      Text(
+                        state.error!,
+                        style: AppTextStyles.caption.copyWith(color: AppColors.error),
+                      ),
+                    ],
+                    const Spacer(),
+                    Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 56,
+                        child: ElevatedButton(
+                          onPressed: state.isLoading
+                              ? null
+                              : () {
+                            bloc.add(ContinuePressed());
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          child: state.isLoading
+                              ? const CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          )
+                              : const Text(
+                            "Devam Et",
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        onPressed: state.isLoading
-                            ? null
-                            : () {
-                          bloc.add(ContinuePressed());
-                          // Başarılı ise yönlendirme burada yapılabilir
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.red,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: state.isLoading
-                            ? const CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                        )
-                            : const Text(
-                          "Devam Et",
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
+                );
+              },
+            ),
           ),
         ),
       ),
