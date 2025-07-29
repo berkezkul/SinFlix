@@ -509,22 +509,11 @@ class _ProfileViewState extends State<ProfileView> {
           ),
           child: Column(
             children: [
-              // Drag Handle ve Başlık
+              // Başlık
               Container(
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
-                    // Drag handle
-                    Container(
-                      width: 40,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-
                     Text(
                       AppLocalizations.of(context)!.offer_limitedOffer,
                       style: AppTextStyles.headline.copyWith(
@@ -533,18 +522,20 @@ class _ProfileViewState extends State<ProfileView> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    //const SizedBox(height: 8),
 
 
             Center(
-              child: Padding(
+              child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
                 child: Text(
                   AppLocalizations.of(context).offer_subtitle,
-                  textAlign: TextAlign.center, // Metin zaten kendi içinde merkezlenmiş
+                  textAlign: TextAlign.center,
                   style: AppTextStyles.body.copyWith(
-                    color: Colors.white.withOpacity(0.8),
-                    fontSize: 12,
+                    color: Colors.white.withOpacity(0.9), // Daha belirgin
+                    fontSize: 12, // Daha büyük font
+                    fontWeight: FontWeight.w500,
+                    height: 1.4, // Daha rahat satır yüksekliği
                   ),
                 ),
               ),
@@ -554,15 +545,23 @@ class _ProfileViewState extends State<ProfileView> {
               
               // Alacağınız Bonuslar Kısmı
               Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                padding: const EdgeInsets.all(20),
+                //margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16), // Daha fazla padding
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(16),
+                  color: Colors.black.withOpacity(0.4), // Biraz daha koyu
+                  borderRadius: BorderRadius.circular(20), // Daha yumuşak köşeler
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.1),
+                    color: Colors.white.withOpacity(0.2), // Biraz daha belirgin border
                     width: 1,
                   ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.3),
+                      blurRadius: 15,
+                      spreadRadius: 0,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -575,7 +574,7 @@ class _ProfileViewState extends State<ProfileView> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 20), // Daha fazla boşluk
                     
                     // 4 bonus item yan yana - responsive
                     Row(
@@ -591,7 +590,7 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
               ),
               
-              const SizedBox(height: 30),
+              const SizedBox(height: 12),
               
               // Paket Seçimi
               Expanded(
@@ -601,7 +600,7 @@ class _ProfileViewState extends State<ProfileView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        AppLocalizations.of(context)!.offer_selectPackage,
+                        AppLocalizations.of(context).offer_selectPackage,
                         style: AppTextStyles.body.copyWith(
                           color: Colors.white,
                           fontSize: 15,
@@ -662,7 +661,7 @@ class _ProfileViewState extends State<ProfileView> {
                         },
                       ),
                       
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 16),
                       
                       // Satın al butonu
                       SizedBox(
@@ -709,33 +708,33 @@ class _ProfileViewState extends State<ProfileView> {
 
   Widget _buildBonusItem(String assetPath, String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 2.0), // Daha az padding
+      padding: const EdgeInsets.symmetric(horizontal: 6.0), // Biraz daha geniş padding
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 42,  // Daha küçük boyut (4 tane yan yana sığması için)
-            height: 42, // Daha küçük boyut
-            padding: const EdgeInsets.all(8),
+            width: 55,
+            height: 55,
+            padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 16), // Daha büyük içerik için daha fazla padding
             decoration: BoxDecoration(
               color: AppColors.bonus,
               shape: BoxShape.circle,
               border: Border.all(
-                color: Colors.white.withOpacity(0.2),
-                width: 1,
+                color: Colors.white.withOpacity(0.3),
+                width: 1.5,
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.white.withOpacity(0.3),
-                  blurRadius: 6,
-                  spreadRadius: 0,
-                  offset: const Offset(0, 0), // Inner shadow effect için
-                ),
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
+                  color: Colors.white.withOpacity(0.2),
                   blurRadius: 8,
                   spreadRadius: 0,
-                  offset: const Offset(0, 3), // Outer shadow için depth
+                  offset: const Offset(0, 0), // Inner glow
+                ),
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.4),
+                  blurRadius: 12,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 4), // Daha belirgin shadow
                 ),
               ],
             ),
@@ -745,10 +744,10 @@ class _ProfileViewState extends State<ProfileView> {
               // color: Colors.white, // Bu satırı kaldırdık - orijinal renkler korunacak
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 4), // Daha fazla boşluk
           // Responsive text with constraints
           ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 60), // Daha dar
+            constraints: const BoxConstraints(maxWidth: 80), // Daha geniş metin alanı
             child: Text(
               title,
               textAlign: TextAlign.center,
@@ -756,9 +755,9 @@ class _ProfileViewState extends State<ProfileView> {
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.body.copyWith(
                 color: Colors.white,
-                fontSize: 9, // Daha küçük font
+                fontSize: 11, // Biraz daha büyük font
                 fontWeight: FontWeight.w600,
-                height: 1.1, // Daha sıkı line height
+                height: 1.2, // Daha rahat line height
               ),
             ),
           ),
@@ -827,7 +826,7 @@ class _ProfileViewState extends State<ProfileView> {
           context.read<OfferBloc>().add(SelectPackage(index));
         },
         child: Container(
-          height: 250, // Paket kartlarının yüksekliğini artırdık
+          height: 220, // Paket kartlarının yüksekliğini artırdık
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
