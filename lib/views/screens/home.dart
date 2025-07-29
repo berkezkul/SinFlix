@@ -225,7 +225,9 @@ class _HomeViewState extends State<HomeView> {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/profile');
+                  Navigator.of(context).pushNamed('/profile').then((_) {
+                    // Profile'dan geri dönüldüğünde hiçbir şey yapma
+                  });
                 },
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),

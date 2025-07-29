@@ -10,6 +10,8 @@ import '../../repositories/user_repository.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/text_styles.dart';
 import '../../utils/constants/dimens.dart';
+import '../../repositories/movie_repository.dart';
+import '../../views/screens/movie_detail.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -25,7 +27,7 @@ class _ProfileViewState extends State<ProfileView> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => ProfileBloc(UserRepository())..add(LoadProfile())),
+        BlocProvider(create: (_) => ProfileBloc(UserRepository(), MovieRepository())..add(LoadProfile())),
         BlocProvider(create: (_) => OfferBloc()),
       ],
       child: Scaffold(
@@ -207,12 +209,36 @@ class _ProfileViewState extends State<ProfileView> {
                     const SizedBox(height: 24),
                     
                     // Beğendiğim Filmler başlığı
-                    Text(
-                      'Beğendiğim Filmler',
-                      style: AppTextStyles.headline.copyWith(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Beğendiğim Filmler',
+                          style: AppTextStyles.headline.copyWith(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                        
+                        // Yenileme butonu
+                        GestureDetector(
+                          onTap: () {
+                            context.read<ProfileBloc>().add(LoadFavoriteMovies());
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppColors.red.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Icon(
+                              Icons.refresh,
+                              color: AppColors.red,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     
                     const SizedBox(height: 16),
@@ -227,64 +253,123 @@ class _ProfileViewState extends State<ProfileView> {
                         mainAxisSpacing: 12,
                         childAspectRatio: 0.75,
                       ),
-                      itemCount: 4, // Şimdilik sabit 4 film
+                      itemCount: state.isLoadingFavorites 
+                          ? 4 // Loading state için placeholder
+                          : state.favoriteMovies.isEmpty
+                              ? 1 // Boş state için
+                              : state.favoriteMovies.length,
                       itemBuilder: (context, index) {
-                        final movies = [
-                          {'title': 'Aşk, Evmek, Hayaller', 'subtitle': 'Adam Yapım'},
-                          {'title': 'Gece Karanlik', 'subtitle': 'Fox Studios'},
-                          {'title': 'Aşk, Evmek, Hayaller', 'subtitle': ''},
-                          {'title': 'Gece Karanlik', 'subtitle': ''},
-                        ];
+                        // Loading state
+                        if (state.isLoadingFavorites) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: AppColors.inputBackground,
+                            ),
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.red,
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          );
+                        }
                         
-                        return Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: AppColors.inputBackground,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Film posteri
-                              Expanded(
-                                child: Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    borderRadius: const BorderRadius.only(
-                                      topLeft: Radius.circular(12),
-                                      topRight: Radius.circular(12),
-                                    ),
-                                    color: AppColors.border,
-                                    image: DecorationImage(
-                                      image: NetworkImage(
-                                        'https://images.unsplash.com/photo-148959998819${index}?w=300&h=400&fit=crop',
+                        // Boş state
+                        if (state.favoriteMovies.isEmpty) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: AppColors.inputBackground,
+                              border: Border.all(color: AppColors.border),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.favorite_border,
+                                  color: AppColors.lightGreyText,
+                                  size: 48,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  'Henüz favori film yok',
+                                  style: AppTextStyles.body.copyWith(
+                                    color: AppColors.lightGreyText,
+                                    fontSize: 12,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                        
+                        // Gerçek favori filmler
+                        final movie = state.favoriteMovies[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => MovieDetailView(movie: movie),
+                              ),
+                            );
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: AppColors.inputBackground,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Film posteri
+                                Expanded(
+                                  child: Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(12),
+                                        topRight: Radius.circular(12),
                                       ),
-                                      fit: BoxFit.cover,
-                                      onError: (exception, stackTrace) {},
+                                      color: AppColors.border,
+                                      image: movie.posterUrl.isNotEmpty
+                                          ? DecorationImage(
+                                              image: NetworkImage(movie.posterUrl),
+                                              fit: BoxFit.cover,
+                                              onError: (exception, stackTrace) {},
+                                            )
+                                          : null,
                                     ),
+                                    child: movie.posterUrl.isEmpty
+                                        ? const Icon(
+                                            Icons.movie,
+                                            color: AppColors.lightGreyText,
+                                            size: 30,
+                                          )
+                                        : null,
                                   ),
                                 ),
-                              ),
-                              
-                              // Film bilgileri
-                              Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      movies[index]['title']!,
-                                      style: AppTextStyles.body.copyWith(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
+                                
+                                // Film bilgileri
+                                Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        movie.title,
+                                        style: AppTextStyles.body.copyWith(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    if (movies[index]['subtitle']!.isNotEmpty) ...[
                                       const SizedBox(height: 2),
                                       Text(
-                                        movies[index]['subtitle']!,
+                                        movie.year.isNotEmpty ? movie.year : 'Belirtilmemiş',
                                         style: AppTextStyles.body.copyWith(
                                           color: AppColors.lightGreyText,
                                           fontSize: 10,
@@ -293,10 +378,10 @@ class _ProfileViewState extends State<ProfileView> {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ],
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       },

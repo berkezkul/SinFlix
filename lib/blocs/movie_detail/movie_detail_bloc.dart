@@ -18,24 +18,34 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
       final currentState = state as MovieDetailLoaded;
       final currentMovie = currentState.movie;
       
+      // Optimistic update - önce UI'ı güncelle
+      final optimisticMovie = currentMovie.copyWith(isFavorite: !currentMovie.isFavorite);
+      emit(MovieDetailLoaded(optimisticMovie));
+      print('🎬 Movie detail optimistic update: "${currentMovie.title}" isFavorite: ${currentMovie.isFavorite} -> ${optimisticMovie.isFavorite}');
+      
       try {
         final token = await TokenStorage.getToken();
-        if (token == null) return;
+        if (token == null) {
+          // Token yoksa geri al
+          emit(MovieDetailLoaded(currentMovie));
+          return;
+        }
         
         print('🎬 Toggling favorite for movie: ${currentMovie.title}');
         final success = await movieRepository.toggleFavorite(event.movieId, token);
         
         if (success) {
-          // Favorileme durumunu güncelle
-          final updatedMovie = currentMovie.copyWith(isFavorite: !currentMovie.isFavorite);
-          print('🎬 Favorite toggled successfully: ${updatedMovie.isFavorite}');
-          emit(MovieDetailLoaded(updatedMovie));
+          print('🎬 Favorite toggled successfully: ${optimisticMovie.isFavorite}');
+          // Optimistic update zaten yapıldı, başarılıysa bırak
         } else {
-          print('❌ Failed to toggle favorite');
+          print('❌ Failed to toggle favorite - reverting');
+          // Başarısızsa geri al
+          emit(MovieDetailLoaded(currentMovie));
         }
       } catch (e) {
         print('❌ Toggle favorite error: $e');
-        // Error state'e geçmek yerine mevcut state'i koru
+        // Hata durumunda geri al
+        emit(MovieDetailLoaded(currentMovie));
       }
     }
   }

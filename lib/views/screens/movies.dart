@@ -8,6 +8,7 @@ import '../../utils/constants/colors.dart';
 import '../../utils/constants/text_styles.dart';
 import '../../utils/constants/dimens.dart';
 import 'movie_detail.dart';
+import 'profile.dart';
 
 class MoviesView extends StatefulWidget {
   const MoviesView({super.key});

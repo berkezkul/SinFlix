@@ -137,25 +137,68 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 
   Future<void> _onToggleFavorite(ToggleFavorite event, Emitter<MovieState> emit) async {
+    print('💖 ToggleFavorite event received for movieId: ${event.movieId}');
+    
+    // Önce local state'i güncelle (Optimistic Update)
+    final updatedMovies = state.movies.map((movie) {
+      if (movie.id == event.movieId) {
+        final updatedMovie = movie.copyWith(isFavorite: !movie.isFavorite);
+        print('🎬 Optimistic update: "${movie.title}" isFavorite: ${movie.isFavorite} -> ${updatedMovie.isFavorite}');
+        return updatedMovie;
+      }
+      return movie;
+    }).toList();
+    
+    emit(state.copyWith(movies: updatedMovies));
+    
     try {
       final token = await TokenStorage.getToken();
-      if (token == null) return;
+      if (token == null) {
+        print('❌ No token available for favorite toggle');
+        // Token yoksa optimistic update'i geri al
+        emit(state.copyWith(movies: state.movies));
+        return;
+      }
       
+      print('🔄 Calling toggleFavorite API...');
       final success = await movieRepository.toggleFavorite(event.movieId, token);
       
       if (success) {
-        // Film listesinde favorileme durumunu güncelle
-        final updatedMovies = state.movies.map((movie) {
+        print('✅ Toggle favorite API success - keeping optimistic update');
+      } else {
+        print('❌ Toggle favorite API failed - reverting optimistic update');
+        
+        // API başarısız olduysa optimistic update'i geri al
+        final revertedMovies = state.movies.map((movie) {
           if (movie.id == event.movieId) {
-            return movie.copyWith(isFavorite: !movie.isFavorite);
+            final revertedMovie = movie.copyWith(isFavorite: !movie.isFavorite);
+            print('🔄 Reverted movie "${movie.title}" isFavorite back to: ${revertedMovie.isFavorite}');
+            return revertedMovie;
           }
           return movie;
         }).toList();
         
-        emit(state.copyWith(movies: updatedMovies));
+        emit(state.copyWith(
+          movies: revertedMovies,
+          error: "Favorileme işlemi başarısız oldu",
+        ));
       }
     } catch (e) {
-      emit(state.copyWith(error: "Favorileme başarısız: $e"));
+      print('❌ Toggle favorite error: $e');
+      
+      // Hata durumunda optimistic update'i geri al
+      final revertedMovies = state.movies.map((movie) {
+        if (movie.id == event.movieId) {
+          final revertedMovie = movie.copyWith(isFavorite: !movie.isFavorite);
+          return revertedMovie;
+        }
+        return movie;
+      }).toList();
+      
+      emit(state.copyWith(
+        movies: revertedMovies,
+        error: "Favorileme hatası: $e",
+      ));
     }
   }
 } 

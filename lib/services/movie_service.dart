@@ -37,8 +37,12 @@ class MovieService {
     return null;
   }
 
-  // Film favorileme/unfavorite
+  // Favorileme toggle (API: POST /movie/favorite/{favoriteId})
   Future<bool> toggleFavorite(String movieId, String token) async {
+    print('🎬 Toggle favorite API call:');
+    print('📍 URL: $baseUrl/movie/favorite/$movieId');
+    print('🔑 Token: ${token.substring(0, 20)}...');
+    
     final response = await http.post(
       Uri.parse('$baseUrl/movie/favorite/$movieId'),
       headers: {
@@ -47,17 +51,30 @@ class MovieService {
       },
     );
     
-    print('Toggle favorite API response: ${response.statusCode} - ${response.body}');
+    print('💖 Toggle favorite API response: ${response.statusCode} - ${response.body}');
     
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      return data['success'] == true;
+      
+      // API formatı: {"response": {"code": 200, "message": ""}, "data": {"movie": {...}}}
+      // Movie objesi varsa başarılı
+      bool isSuccess = data['data'] != null && data['data']['movie'] != null;
+      
+      print('✅ Toggle favorite success: $isSuccess');
+      print('📊 Response data structure: ${data['data']?.keys?.toList()}');
+      
+      return isSuccess;
+    } else {
+      print('❌ Toggle favorite failed: Status ${response.statusCode}');
+      return false;
     }
-    return false;
   }
 
-  // Favori filmler listesi
+  // Favori filmler listesi (API: GET /movie/favorites)
   Future<List<Movie>?> getFavoriteMovies(String token) async {
+    print('🎬 Get favorites API call:');
+    print('📍 URL: $baseUrl/movie/favorites');
+    
     final response = await http.get(
       Uri.parse('$baseUrl/movie/favorites'),
       headers: {
@@ -66,19 +83,32 @@ class MovieService {
       },
     );
     
-    print('Favorite movies API response: ${response.statusCode} - ${response.body}');
+    print('💖 Favorite movies API response: ${response.statusCode} - ${response.body}');
     
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      print('Favorite movies data: $data');
+      print('📊 Favorite movies data structure: $data');
       
-      // Backend response formatına göre parse et
-      if (data['movies'] != null) {
-        return (data['movies'] as List)
+      // Gerçek API formatı: {"response": {...}, "data": [movie1, movie2, ...]}
+      if (data['data'] != null && data['data'] is List) {
+        final favoriteMovies = (data['data'] as List)
             .map((movie) => Movie.fromJson(movie))
             .toList();
+        print('✅ Parsed ${favoriteMovies.length} favorite movies');
+        
+        // İlk film adını da yazdır
+        if (favoriteMovies.isNotEmpty) {
+          print('🎬 First favorite movie: ${favoriteMovies.first.title}');
+        }
+        
+        return favoriteMovies;
+      } else {
+        print('⚠️ Data is not a list or null: ${data['data']?.runtimeType}');
+        return [];
       }
+    } else {
+      print('❌ Get favorites failed: Status ${response.statusCode}');
+      return null;
     }
-    return null;
   }
 } 
