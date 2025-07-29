@@ -46,12 +46,30 @@ class ProfilePhotoView extends StatelessWidget {
         },
         child: Scaffold(
           backgroundColor: AppColors.background,
+          appBar: AppBar(
+            backgroundColor: AppColors.background,
+            elevation: 0,
+            centerTitle: true, // Bu AppBar title'ını ortalar
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.white),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            title: Text(
+              'Profil Detayı',
+              style: AppTextStyles.headline.copyWith(
+                color: Colors.white,
+                fontSize: 18,
+              ),
+            ),
+          ),
           body: SafeArea(
             child: BlocBuilder<ProfilePhotoBloc, ProfilePhotoState>(
               builder: (context, state) {
                 final bloc = context.read<ProfilePhotoBloc>();
                 return Column(
+
                   children: [
+
                     // ... (UI kodun değişmeden devam edebilir)
                     GestureDetector(
                       onTap: state.isLoading ? null : () => _pickImage(context),

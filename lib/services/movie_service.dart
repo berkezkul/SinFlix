@@ -61,7 +61,6 @@ class MovieService {
       bool isSuccess = data['data'] != null && data['data']['movie'] != null;
       
       print('✅ Toggle favorite success: $isSuccess');
-      print('📊 Response data structure: ${data['data']?.keys?.toList()}');
       
       return isSuccess;
     } else {
