@@ -826,7 +826,7 @@ class _ProfileViewState extends State<ProfileView> {
           context.read<OfferBloc>().add(SelectPackage(index));
         },
         child: Container(
-          height: 220, // Paket kartlarının yüksekliğini artırdık
+          height: 220,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
