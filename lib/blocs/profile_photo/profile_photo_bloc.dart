@@ -4,6 +4,7 @@ import 'profile_photo_state.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../utils/helpers/token_storage.dart';
+import '../../utils/helpers/image_helper.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -30,11 +31,20 @@ class ProfilePhotoBloc extends Bloc<ProfilePhotoEvent, ProfilePhotoState> {
           return;
         }
 
+        // Önce fotoğrafı sıkıştır (API limiti çok düşük - target 200KB)
+        print('📷 Fotoğraf sıkıştırılıyor...');
+        final compressedPhoto = await ImageHelper.compressImage(
+          state.photo!,
+          quality: 40,  // %40 kalite (çok düşük)
+          maxWidth: 600,  // Max 600px genişlik (çok küçük)
+          maxHeight: 600, // Max 600px yükseklik (çok küçük)
+        );
+        
         // Direkt API'ye dosya gönder (multipart/form-data)
         print('API\'ye dosya upload başlıyor...');
         var request = http.MultipartRequest('POST', Uri.parse('https://caseapi.servicelabs.tech/user/upload_photo'));
         request.headers['Authorization'] = 'Bearer $token';
-        request.files.add(await http.MultipartFile.fromPath('file', state.photo!.path));
+        request.files.add(await http.MultipartFile.fromPath('file', compressedPhoto.path));
         
         var response = await request.send();
         var responseBody = await response.stream.bytesToString();
@@ -49,8 +59,18 @@ class ProfilePhotoBloc extends Bloc<ProfilePhotoEvent, ProfilePhotoState> {
           }
           emit(state.copyWith(isLoading: false, error: null, photoUrl: photoUrl ?? 'uploaded'));
         } else {
-          final errorMsg = "API'ye fotoğraf yüklenemedi. Status: ${response.statusCode}";
-          emit(state.copyWith(isLoading: false, error: errorMsg));
+          String errorMessage;
+          if (response.statusCode == 413) {
+            errorMessage = "📷 Fotoğraf çok büyük!\n\nLütfen daha küçük bir fotoğraf seçin veya fotoğrafınızı sıkıştırın.\n\n💡 İpucu: Telefonunuzdan çekilmiş normal fotoğraflar genelde uygun boyuttadır.";
+          } else if (response.statusCode == 401) {
+            errorMessage = "🔐 Oturum süresi dolmuş!\n\nLütfen tekrar giriş yapın.";
+          } else if (response.statusCode >= 500) {
+            errorMessage = "🔧 Sunucu hatası!\n\nLütfen daha sonra tekrar deneyin.";
+          } else {
+            errorMessage = "❌ Fotoğraf yüklenemedi!\n\nLütfen tekrar deneyin. Hata kodu: ${response.statusCode}";
+          }
+          
+          emit(state.copyWith(isLoading: false, error: errorMessage));
         }
       } catch (e) {
         print('Upload error: $e');
