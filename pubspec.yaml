@@ -52,6 +52,7 @@ dev_dependencies:
   firebase_core: ^2.24.2
   firebase_storage: ^11.6.6
   image: ^4.1.7  # Image compression için
+  path_provider: ^2.1.2  # File logging için
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
