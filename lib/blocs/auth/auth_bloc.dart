@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'auth_event.dart';
 import 'auth_state.dart';
 import '../../repositories/user_repository.dart';
+import '../../services/navigation_service.dart';
+import '../../utils/extensions/navigation_extensions.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserRepository userRepository;
@@ -12,8 +14,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       final token = await userRepository.login(event.email, event.password);
       if (token != null) {
         emit(AuthSuccess(token));
+        // Context gerektirmeden navigation
+        NavigationService().showSuccess("Giriş başarılı!");
+        NavigationService().completeLogin();
       } else {
         emit(AuthFailure("Giriş başarısız!"));
+        NavigationService().showError("E-posta veya şifre hatalı!");
       }
     });
 
@@ -25,6 +31,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (token != null && token.contains('.') && token.length > 20) {
         print('Register token is valid JWT, using it');
         emit(AuthSuccess(token));
+        // Context gerektirmeden navigation - kayıt sonrası profil fotoğrafı
+        NavigationService().showSuccess("Kayıt başarılı!");
+        NavigationService().completeRegistration();
       } else if (token != null) {
         print('Register token is not valid, trying auto login');
         // Token yoksa veya geçersizse, otomatik login dene
@@ -33,9 +42,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (loginToken != null && loginToken.contains('.') && loginToken.length > 20) {
           print('Auto login token is valid JWT, using it');
           emit(AuthSuccess(loginToken));
+          NavigationService().showSuccess("Kayıt başarılı!");
+          NavigationService().completeRegistration();
         } else {
           print('Auto login also failed');
           emit(AuthFailure("Kayıt başarılı, lütfen giriş yapın."));
+          NavigationService().showError("Kayıt başarılı, lütfen giriş yapın.");
         }
       } else {
         print('Register failed, no token returned');

@@ -27,13 +27,11 @@ class RegisterView extends StatelessWidget {
         listener: (context, state) async {
           if (state is AuthSuccess) {
             await TokenStorage.saveToken(state.token);
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => const ProfilePhotoView()),
-            );
+            // Navigation Service zaten AuthBloc'da handle ediliyor
+            // Burada tekrar yapmaya gerek yok
           } else if (state is AuthFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error)),
-            );
+            // Navigation Service zaten AuthBloc'da handle ediliyor
+            // Burada tekrar yapmaya gerek yok
           }
         },
         child: Scaffold(

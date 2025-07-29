@@ -24,17 +24,17 @@ class LoginView extends StatelessWidget {
         BlocProvider(create: (_) => LoginBloc()),
         BlocProvider(create: (_) => AuthBloc(UserRepository())),
       ],
-      child: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) async {
-          if (state is AuthSuccess) {
-            await TokenStorage.saveToken(state.token);
-            Navigator.of(context).pushReplacementNamed('/home');
-          } else if (state is AuthFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error)),
-            );
-          }
-        },
+              child: BlocListener<AuthBloc, AuthState>(
+          listener: (context, state) async {
+            if (state is AuthSuccess) {
+              await TokenStorage.saveToken(state.token);
+              // Navigation Service zaten AuthBloc'da handle ediliyor
+              // Burada tekrar yapmaya gerek yok
+            } else if (state is AuthFailure) {
+              // Navigation Service zaten AuthBloc'da handle ediliyor  
+              // Burada tekrar yapmaya gerek yok
+            }
+          },
         child: Scaffold(
           backgroundColor: AppColors.background,
           body: Center(

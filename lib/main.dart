@@ -6,6 +6,8 @@ import 'package:sinflix/views/screens/add_profile_photo.dart';
 import 'package:sinflix/views/screens/profile.dart';
 import 'package:sinflix/views/screens/movies.dart';
 import 'utils/constants/theme.dart';
+import 'utils/constants/routes.dart';
+import 'services/navigation_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 Future<void> main() async {
@@ -24,13 +26,15 @@ class MyApp extends StatelessWidget {
       theme: appTheme,
       home: const LoginView(),
       debugShowCheckedModeBanner: false,
+      navigatorKey: NavigationService().navigatorKey, // Global navigator key
+      initialRoute: AppRoutes.login,
       routes: {
-        '/login': (context) => const LoginView(),
-        '/register': (context) => const RegisterView(),
-        '/profile-photo': (context) => const ProfilePhotoView(),
-        '/home': (context) => const HomeView(),
-        '/profile': (context) => const ProfileView(),
-        '/movies': (context) => const MoviesView(),
+        AppRoutes.login: (context) => const LoginView(),
+        AppRoutes.register: (context) => const RegisterView(),
+        AppRoutes.profilePhoto: (context) => const ProfilePhotoView(),
+        AppRoutes.home: (context) => const HomeView(),
+        AppRoutes.profile: (context) => const ProfileView(),
+        AppRoutes.movies: (context) => const MoviesView(),
       },
     );
   }

@@ -36,8 +36,8 @@ class ProfilePhotoView extends StatelessWidget {
       child: BlocListener<ProfilePhotoBloc, ProfilePhotoState>(
         listener: (context, state) async {
           if (state.isLoading == false && state.error == null && state.photoUrl != null) {
-            // Fotoğraf başarıyla yüklendi ve API'ye gönderildi, ana sayfaya yönlendir
-            Navigator.of(context).pushReplacementNamed('/home');
+            // Navigation Service zaten ProfilePhotoBloc'da handle ediliyor
+            // Burada tekrar yapmaya gerek yok
           } else if (state.error != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error!)),

@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../../utils/helpers/token_storage.dart';
 import '../../utils/helpers/image_helper.dart';
+import '../../services/navigation_service.dart';
+import '../../utils/extensions/navigation_extensions.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -58,6 +60,9 @@ class ProfilePhotoBloc extends Bloc<ProfilePhotoEvent, ProfilePhotoState> {
             photoUrl = data['data']['photoUrl'];
           }
           emit(state.copyWith(isLoading: false, error: null, photoUrl: photoUrl ?? 'uploaded'));
+          // Context gerektirmeden navigation ve feedback
+          NavigationService().showSuccess("Profil fotoğrafı başarıyla yüklendi!");
+          NavigationService().goToHome();
         } else {
           String errorMessage;
           if (response.statusCode == 413) {
