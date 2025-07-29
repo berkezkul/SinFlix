@@ -15,11 +15,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (token != null) {
         emit(AuthSuccess(token));
         // Context gerektirmeden navigation
-        NavigationService().showSuccess("Giriş başarılı!");
-        NavigationService().completeLogin();
+        NavigationService.instance.showSuccess("Giriş başarılı!");
+        NavigationService.instance.completeLogin();
       } else {
         emit(AuthFailure("Giriş başarısız!"));
-        NavigationService().showError("E-posta veya şifre hatalı!");
+        NavigationService.instance.showError("E-posta veya şifre hatalı!");
       }
     });
 
@@ -32,8 +32,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         print('Register token is valid JWT, using it');
         emit(AuthSuccess(token));
         // Context gerektirmeden navigation - kayıt sonrası profil fotoğrafı
-        NavigationService().showSuccess("Kayıt başarılı!");
-        NavigationService().completeRegistration();
+        NavigationService.instance.showSuccess("Kayıt başarılı!");
+        NavigationService.instance.completeRegistration();
       } else if (token != null) {
         print('Register token is not valid, trying auto login');
         // Token yoksa veya geçersizse, otomatik login dene
@@ -42,12 +42,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         if (loginToken != null && loginToken.contains('.') && loginToken.length > 20) {
           print('Auto login token is valid JWT, using it');
           emit(AuthSuccess(loginToken));
-          NavigationService().showSuccess("Kayıt başarılı!");
-          NavigationService().completeRegistration();
+          NavigationService.instance.showSuccess("Kayıt başarılı!");
+          NavigationService.instance.completeRegistration();
         } else {
           print('Auto login also failed');
           emit(AuthFailure("Kayıt başarılı, lütfen giriş yapın."));
-          NavigationService().showError("Kayıt başarılı, lütfen giriş yapın.");
+          NavigationService.instance.showError("Kayıt başarılı, lütfen giriş yapın.");
         }
       } else {
         print('Register failed, no token returned');

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 class NavigationService {
   // Singleton pattern
-  static final NavigationService _instance = NavigationService._internal();
-  factory NavigationService() => _instance;
+  static NavigationService? _instance;
+  static NavigationService get instance => _instance ??= NavigationService._internal();
+  factory NavigationService() => instance;
   NavigationService._internal();
 
   // Global navigator key

@@ -8,6 +8,7 @@ import '../../blocs/profile_photo/profile_photo_state.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/text_styles.dart';
 import '../../utils/constants/icons.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class ProfilePhotoView extends StatelessWidget {
   const ProfilePhotoView({super.key});
@@ -55,7 +56,7 @@ class ProfilePhotoView extends StatelessWidget {
               onPressed: () => Navigator.of(context).pop(),
             ),
             title: Text(
-              'Profil Detayı',
+              AppLocalizations.of(context)!.profile_title,
               style: AppTextStyles.headline.copyWith(
                 color: Colors.white,
                 fontSize: 18,
@@ -133,9 +134,9 @@ class ProfilePhotoView extends StatelessWidget {
                               ? const CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           )
-                              : const Text(
-                            "Devam Et",
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                              : Text(
+                            AppLocalizations.of(context)!.profile_photoContinue,
+                            style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                         ),
                       ),

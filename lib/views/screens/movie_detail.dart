@@ -8,6 +8,7 @@ import '../../utils/constants/colors.dart';
 import '../../utils/constants/text_styles.dart';
 import '../../utils/constants/dimens.dart';
 import '../../models/movie.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class MovieDetailView extends StatelessWidget {
   final Movie movie;
@@ -86,7 +87,7 @@ class MovieDetailView extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.red,
                       ),
-                      child: const Text('Geri Dön'),
+                                                child: Text(AppLocalizations.of(context)!.common_back),
                     ),
                   ],
                 ),
@@ -280,7 +281,9 @@ class MovieDetailView extends StatelessWidget {
                                 color: Colors.white,
                               ),
                               label: Text(
-                                state.movie.isFavorite ? 'Favorilerden Çıkar' : 'Favorilere Ekle',
+                                state.movie.isFavorite 
+                          ? AppLocalizations.of(context)!.movies_removeFromFavorites
+                          : AppLocalizations.of(context)!.movies_addToFavorites,
                                 style: AppTextStyles.button.copyWith(color: Colors.white),
                               ),
                               style: ElevatedButton.styleFrom(
@@ -468,7 +471,7 @@ class MovieDetailView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Film Bilgileri',
+                                      AppLocalizations.of(context)!.movieDetail_movieInfo,
             style: AppTextStyles.headline.copyWith(
               color: Colors.white,
               fontSize: 20,
@@ -479,9 +482,9 @@ class MovieDetailView extends StatelessWidget {
           // İlk satır: Tür ve Süre
           Row(
             children: [
-              Expanded(child: _buildInfoCard('Tür', movie.genre)),
-              const SizedBox(width: 12),
-              Expanded(child: _buildInfoCard('Süre', movie.runtime)),
+                              Expanded(child: _buildInfoCard(context, AppLocalizations.of(context)!.movieDetail_genre, movie.genre)),
+                const SizedBox(width: 12),
+                Expanded(child: _buildInfoCard(context, AppLocalizations.of(context)!.movieDetail_runtime, movie.runtime)),
             ],
           ),
           
@@ -490,9 +493,9 @@ class MovieDetailView extends StatelessWidget {
           // İkinci satır: Yayın Tarihi ve Yaş Sınırı
           Row(
             children: [
-              Expanded(child: _buildInfoCard('Yayın Tarihi', movie.released)),
-              const SizedBox(width: 12),
-              Expanded(child: _buildInfoCard('Yaş Sınırı', movie.rated)),
+                              Expanded(child: _buildInfoCard(context, AppLocalizations.of(context)!.movieDetail_released, movie.released)),
+                const SizedBox(width: 12),
+                Expanded(child: _buildInfoCard(context, AppLocalizations.of(context)!.movieDetail_rated, movie.rated)),
             ],
           ),
           
@@ -501,9 +504,9 @@ class MovieDetailView extends StatelessWidget {
           // Üçüncü satır: Dil ve Ülke
           Row(
             children: [
-              Expanded(child: _buildInfoCard('Dil', movie.language)),
-              const SizedBox(width: 12),
-              Expanded(child: _buildInfoCard('Ülke', movie.country)),
+                              Expanded(child: _buildInfoCard(context, AppLocalizations.of(context)!.movieDetail_language, movie.language)),
+                const SizedBox(width: 12),
+                Expanded(child: _buildInfoCard(context, AppLocalizations.of(context)!.movieDetail_country, movie.country)),
             ],
           ),
           
@@ -527,11 +530,11 @@ class MovieDetailView extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoCard(String label, String value) {
+  Widget _buildInfoCard(BuildContext context, String label, String value) {
     // Değer kontrolü ve fallback
     String displayValue = value;
     if (value.isEmpty || value == 'N/A' || value == 'null') {
-      displayValue = 'Belirtilmemiş';
+      displayValue = AppLocalizations.of(context)!.movieDetail_notSpecified;
     }
     
     return Container(
@@ -556,12 +559,12 @@ class MovieDetailView extends StatelessWidget {
           Text(
             displayValue,
             style: AppTextStyles.body.copyWith(
-              color: displayValue == 'Belirtilmemiş' 
+              color: displayValue == AppLocalizations.of(context)!.movieDetail_notSpecified 
                   ? AppColors.lightGreyText.withOpacity(0.7)
                   : Colors.white,
               fontSize: 14,
               fontWeight: FontWeight.w600,
-              fontStyle: displayValue == 'Belirtilmemiş' 
+              fontStyle: displayValue == AppLocalizations.of(context)!.movieDetail_notSpecified 
                   ? FontStyle.italic 
                   : FontStyle.normal,
             ),
@@ -627,7 +630,7 @@ class MovieDetailView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Oyuncular ve Ekip',
+            AppLocalizations.of(context)!.movieDetail_castCrew,
             style: AppTextStyles.headline.copyWith(
               color: Colors.white,
               fontSize: 20,
@@ -635,21 +638,21 @@ class MovieDetailView extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           
-          _buildCrewCard('Yönetmen', movie.director, Icons.movie_creation),
-          const SizedBox(height: 12),
-          _buildCrewCard('Yazar', movie.writer, Icons.edit),
-          const SizedBox(height: 12),
-          _buildCrewCard('Oyuncular', movie.actors, Icons.people),
+                                  _buildCrewCard(context, AppLocalizations.of(context)!.movieDetail_director, movie.director, Icons.movie_creation),
+            const SizedBox(height: 12),
+            _buildCrewCard(context, AppLocalizations.of(context)!.movieDetail_writer, movie.writer, Icons.edit),
+            const SizedBox(height: 12),
+            _buildCrewCard(context, AppLocalizations.of(context)!.movieDetail_actors, movie.actors, Icons.people),
         ],
       ),
     );
   }
 
-  Widget _buildCrewCard(String role, String names, IconData icon) {
+  Widget _buildCrewCard(BuildContext context, String role, String names, IconData icon) {
     // Değer kontrolü ve fallback
     String displayNames = names;
     if (names.isEmpty || names == 'N/A' || names == 'null') {
-      displayNames = 'Belirtilmemiş';
+              displayNames = AppLocalizations.of(context)!.movieDetail_notSpecified;
     }
     
     return Container(
@@ -691,12 +694,12 @@ class MovieDetailView extends StatelessWidget {
                 Text(
                   displayNames,
                   style: AppTextStyles.body.copyWith(
-                    color: displayNames == 'Belirtilmemiş'
+                    color: displayNames == AppLocalizations.of(context)!.movieDetail_notSpecified
                         ? AppColors.lightGreyText.withOpacity(0.7)
                         : Colors.white,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    fontStyle: displayNames == 'Belirtilmemiş'
+                    fontStyle: displayNames == AppLocalizations.of(context)!.movieDetail_notSpecified
                         ? FontStyle.italic
                         : FontStyle.normal,
                   ),
@@ -745,7 +748,7 @@ class MovieDetailView extends StatelessWidget {
                 ),
                 const SizedBox(width: 12),
                 Text(
-                  'Ödüller ve Başarılar',
+                  AppLocalizations.of(context)!.movieDetail_awards,
                   style: AppTextStyles.headline.copyWith(
                     color: Colors.white,
                     fontSize: 18,

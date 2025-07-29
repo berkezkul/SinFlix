@@ -9,6 +9,7 @@ import '../../utils/constants/text_styles.dart';
 import '../../utils/constants/dimens.dart';
 import 'movie_detail.dart';
 import 'profile.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class MoviesView extends StatefulWidget {
   const MoviesView({super.key});
@@ -95,7 +96,7 @@ class _MoviesViewState extends State<MoviesView> {
                   onPressed: () {
                     // TODO: Search functionality
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Arama özelliği yakında!')),
+                      SnackBar(content: Text(AppLocalizations.of(context)!.movies_searchComingSoon)),
                     );
                   },
                 ),
@@ -148,7 +149,7 @@ class _MoviesViewState extends State<MoviesView> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.red,
                           ),
-                          child: const Text('Tekrar Dene'),
+                          child: Text(AppLocalizations.of(context)!.common_retry),
                         ),
                       ],
                     ),
@@ -210,7 +211,7 @@ class _MoviesViewState extends State<MoviesView> {
                             padding: const EdgeInsets.all(16),
                             child: Center(
                               child: Text(
-                                'Tüm filmler yüklendi 🎬',
+                                AppLocalizations.of(context)!.movies_endOfList,
                                 style: AppTextStyles.body.copyWith(
                                   color: AppColors.lightGreyText,
                                 ),

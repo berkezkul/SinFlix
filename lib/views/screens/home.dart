@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/text_styles.dart';
 import '../../utils/constants/dimens.dart';
 import '../../utils/constants/movies.dart';
+import '../../l10n/generated/app_localizations.dart';
+import '../../blocs/language/language_bloc.dart';
+import '../../blocs/language/language_event.dart';
+import '../../blocs/language/language_state.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -121,7 +126,7 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Tüm Filmleri Keşfet',
+                          AppLocalizations.of(context)!.home_discoverMovies,
                           style: AppTextStyles.button.copyWith(
                             color: Colors.white,
                             fontSize: 16,
@@ -136,6 +141,87 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           
+          // Dil değiştirme butonu - sağ üst
+          Positioned(
+            top: MediaQuery.of(context).padding.top + 16,
+            right: AppDimens.pagePadding,
+            child: BlocBuilder<LanguageBloc, LanguageState>(
+              builder: (context, state) {
+                bool isTurkish = true;
+                if (state is LanguageLoaded) {
+                  isTurkish = state.locale.languageCode == 'tr';
+                }
+                
+                return GestureDetector(
+                  onTap: () {
+                    final newLocale = isTurkish 
+                        ? const Locale('en', 'US')
+                        : const Locale('tr', 'TR');
+                    
+                    context.read<LanguageBloc>().add(ChangeLanguage(newLocale));
+                    
+                    // Kullanıcıya bilgi ver
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Row(
+                          children: [
+                            Text(
+                              isTurkish ? '🇺🇸' : '🇹🇷',
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              isTurkish 
+                                  ? 'Language changed to English'
+                                  : 'Dil Türkçe olarak değiştirildi',
+                            ),
+                          ],
+                        ),
+                        backgroundColor: AppColors.success,
+                        duration: const Duration(seconds: 2),
+                      ),
+                    );
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.7),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.2),
+                        width: 1,
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          isTurkish ? '🇹🇷' : '🇺🇸',
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          isTurkish ? 'TR' : 'EN',
+                          style: AppTextStyles.caption.copyWith(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(width: 4),
+                        Icon(
+                          Icons.swap_horiz,
+                          color: AppColors.white.withOpacity(0.7),
+                          size: 16,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+
           // Favorileme butonu
           Positioned(
             bottom: 180,
@@ -148,7 +234,9 @@ class _HomeViewState extends State<HomeView> {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
-                      _isFavorite ? 'Favorilere eklendi!' : 'Favorilerden çıkarıldı!',
+                      _isFavorite 
+                        ? AppLocalizations.of(context)!.movies_addToFavorites
+                        : AppLocalizations.of(context)!.movies_removeFromFavorites,
                     ),
                     backgroundColor: _isFavorite ? AppColors.success : AppColors.error,
                     duration: const Duration(seconds: 1),
@@ -211,7 +299,7 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Anasayfa',
+                        AppLocalizations.of(context)!.nav_home,
                         style: AppTextStyles.button.copyWith(
                           color: _currentIndex == 0 ? AppColors.white : AppColors.lightGreyText,
                           fontSize: 14,
@@ -248,7 +336,7 @@ class _HomeViewState extends State<HomeView> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Profil',
+                        AppLocalizations.of(context)!.nav_profile,
                         style: AppTextStyles.button.copyWith(
                           color: _currentIndex == 1 ? AppColors.white : AppColors.lightGreyText,
                           fontSize: 14,

@@ -13,6 +13,7 @@ import '../../utils/constants/dimens.dart';
 import '../../utils/constants/offer_assets.dart';
 import '../../repositories/movie_repository.dart';
 import '../../views/screens/movie_detail.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -42,7 +43,7 @@ class _ProfileViewState extends State<ProfileView> {
             onPressed: () => Navigator.of(context).pop(),
           ),
           title: Text(
-            'Profil Detayı',
+            AppLocalizations.of(context)!.profile_title,
             style: AppTextStyles.headline.copyWith(
               color: Colors.white,
               fontSize: 18,
@@ -66,7 +67,7 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     child: Text(
-                      'Sınırlı Teklif',
+                      AppLocalizations.of(context)!.offer_limitedOffer,
                       style: AppTextStyles.button.copyWith(
                         color: Colors.white,
                         fontSize: 12,
@@ -196,7 +197,7 @@ class _ProfileViewState extends State<ProfileView> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             child: Text(
-                              'Fotoğraf Ekle',
+                              AppLocalizations.of(context)!.profile_addPhoto,
                               style: AppTextStyles.button.copyWith(
                                 color: Colors.white,
                                 fontSize: 12,
@@ -214,7 +215,7 @@ class _ProfileViewState extends State<ProfileView> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Beğendiğim Filmler',
+                          AppLocalizations.of(context)!.profile_favoriteMovies,
                           style: AppTextStyles.headline.copyWith(
                             color: Colors.white,
                             fontSize: 20,
@@ -294,7 +295,7 @@ class _ProfileViewState extends State<ProfileView> {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  'Henüz favori film yok',
+                                  AppLocalizations.of(context)!.profile_noFavorites,
                                   style: AppTextStyles.body.copyWith(
                                     color: AppColors.lightGreyText,
                                     fontSize: 12,
@@ -370,7 +371,7 @@ class _ProfileViewState extends State<ProfileView> {
                                       ),
                                       const SizedBox(height: 2),
                                       Text(
-                                        movie.year.isNotEmpty ? movie.year : 'Belirtilmemiş',
+                                        movie.year.isNotEmpty ? movie.year : AppLocalizations.of(context)!.movieDetail_notSpecified,
                                         style: AppTextStyles.body.copyWith(
                                           color: AppColors.lightGreyText,
                                           fontSize: 10,
@@ -463,7 +464,7 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Profil',
+                        AppLocalizations.of(context)!.nav_profile,
                         style: AppTextStyles.button.copyWith(
                           color: _currentIndex == 1 ? AppColors.white : AppColors.lightGreyText,
                           fontSize: 14,
@@ -490,7 +491,7 @@ class _ProfileViewState extends State<ProfileView> {
       builder: (modalContext) => BlocProvider.value(
         value: offerBloc, // Direkt instance geçir
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.85,
+          height: MediaQuery.of(context).size.height * 0.82, // Biraz daha küçük yap
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topRight,
@@ -523,9 +524,9 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    
+
                     Text(
-                      'Sınırlı Teklif',
+                      AppLocalizations.of(context)!.offer_limitedOffer,
                       style: AppTextStyles.headline.copyWith(
                         color: Colors.white,
                         fontSize: 20,
@@ -533,16 +534,21 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     const SizedBox(height: 8),
-                    
-                    Text(
-                      'Jeton paketini seçerek bonus\nkazanın ve yeni bölümlerin kilidini açın!',
-                      textAlign: TextAlign.center,
-                      style: AppTextStyles.body.copyWith(
-                        color: Colors.white.withOpacity(0.8),
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
+
+
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
+                child: Text(
+                  AppLocalizations.of(context).offer_subtitle,
+                  textAlign: TextAlign.center, // Metin zaten kendi içinde merkezlenmiş
+                  style: AppTextStyles.body.copyWith(
+                    color: Colors.white.withOpacity(0.8),
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ),],
                 ),
               ),
               
@@ -562,7 +568,7 @@ class _ProfileViewState extends State<ProfileView> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Alacağınız Bonuslar',
+                      AppLocalizations.of(context)!.offer_yourBonuses,
                       style: AppTextStyles.headline.copyWith(
                         color: Colors.white,
                         fontSize: 15,
@@ -571,13 +577,14 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     const SizedBox(height: 16),
                     
+                    // 4 bonus item yan yana - responsive
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _buildBonusItem(OfferAssets.premiumAccount, 'Premium\nHesap'),
-                        _buildBonusItem(OfferAssets.moreMatches, 'Daha\nFazla Eşleşme'),
-                        _buildBonusItem(OfferAssets.putForward, 'Öne\nÇıkarma'),
-                        _buildBonusItem(OfferAssets.moreMatches, 'Daha\nFazla Beğeni'),
+                        Expanded(child: _buildBonusItem(OfferAssets.premiumAccount, AppLocalizations.of(context)!.offer_premiumAccount)),
+                        Expanded(child: _buildBonusItem(OfferAssets.moreMatches, AppLocalizations.of(context)!.offer_moreMatches)),
+                        Expanded(child: _buildBonusItem(OfferAssets.putForward, AppLocalizations.of(context)!.offer_putForward)),
+                        Expanded(child: _buildBonusItem(OfferAssets.moreMatches, AppLocalizations.of(context)!.offer_moreBegeniler)),
                       ],
                     ),
                   ],
@@ -594,7 +601,7 @@ class _ProfileViewState extends State<ProfileView> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Kilidi açmak için bir jeton paketi seçin',
+                        AppLocalizations.of(context)!.offer_selectPackage,
                         style: AppTextStyles.body.copyWith(
                           color: Colors.white,
                           fontSize: 15,
@@ -678,7 +685,7 @@ class _ProfileViewState extends State<ProfileView> {
                             ),
                           ),
                           child: Text(
-                            'Tüm Jetonları Gör',
+                            AppLocalizations.of(context)!.offer_seeAllTokens,
                             style: AppTextStyles.button.copyWith(
                               color: Colors.white,
                               fontSize: 16,
@@ -701,51 +708,62 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   Widget _buildBonusItem(String assetPath, String title) {
-    return Column(
-      children: [
-        Container(
-          width: 60,
-          height: 60,
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: AppColors.bonus,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.white.withOpacity(0.2),
-              width: 1,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2.0), // Daha az padding
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: 42,  // Daha küçük boyut (4 tane yan yana sığması için)
+            height: 42, // Daha küçük boyut
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: AppColors.bonus,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Colors.white.withOpacity(0.2),
+                width: 1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.white.withOpacity(0.3),
+                  blurRadius: 6,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 0), // Inner shadow effect için
+                ),
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  blurRadius: 8,
+                  spreadRadius: 0,
+                  offset: const Offset(0, 3), // Outer shadow için depth
+                ),
+              ],
             ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.white.withOpacity(0.3),
-                blurRadius: 8.33,
-                spreadRadius: 0,
-                offset: const Offset(0, 0), // Inner shadow effect için
+            child: Image.asset(
+              assetPath,
+              fit: BoxFit.contain,
+              // color: Colors.white, // Bu satırı kaldırdık - orijinal renkler korunacak
+            ),
+          ),
+          const SizedBox(height: 4),
+          // Responsive text with constraints
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 60), // Daha dar
+            child: Text(
+              title,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: AppTextStyles.body.copyWith(
+                color: Colors.white,
+                fontSize: 9, // Daha küçük font
+                fontWeight: FontWeight.w600,
+                height: 1.1, // Daha sıkı line height
               ),
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 10,
-                spreadRadius: 0,
-                offset: const Offset(0, 4), // Outer shadow için depth
-              ),
-            ],
+            ),
           ),
-          child: Image.asset(
-            assetPath,
-            fit: BoxFit.contain,
-            // color: Colors.white, // Bu satırı kaldırdık - orijinal renkler korunacak
-          ),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          title,
-          textAlign: TextAlign.center,
-          style: AppTextStyles.body.copyWith(
-            color: Colors.white,
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -891,7 +909,7 @@ class _ProfileViewState extends State<ProfileView> {
                         ),
                         
                         Text(
-                          'Başına haftalık',
+                          AppLocalizations.of(context)!.offer_weeklyPrice,
                           style: AppTextStyles.body.copyWith(
                             color: Colors.white.withOpacity(0.8),
                             fontSize: 10,

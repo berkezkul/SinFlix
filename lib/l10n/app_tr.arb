@@ -1,0 +1,404 @@
+{
+  "@@locale": "tr",
+  "@@author": "SinFlix Team",
+  
+  "appName": "SinFlix",
+  "@appName": {
+    "description": "Uygulama adı"
+  },
+
+  "common_welcome": "Hoş Geldiniz",
+  "@common_welcome": {
+    "description": "Genel hoş geldiniz mesajı"
+  },
+  
+  "common_loading": "Yükleniyor...",
+  "@common_loading": {
+    "description": "Yükleme mesajı"
+  },
+  
+  "common_error": "Hata oluştu",
+  "@common_error": {
+    "description": "Genel hata mesajı"
+  },
+  
+  "common_success": "Başarılı!",
+  "@common_success": {
+    "description": "Başarı mesajı"
+  },
+  
+  "common_cancel": "İptal",
+  "@common_cancel": {
+    "description": "İptal butonu"
+  },
+  
+  "common_ok": "Tamam",
+  "@common_ok": {
+    "description": "Tamam butonu"
+  },
+  
+  "common_retry": "Tekrar Dene",
+  "@common_retry": {
+    "description": "Tekrar dene butonu"
+  },
+
+  "common_back": "Geri Dön",
+  "@common_back": {
+    "description": "Geri dön butonu"
+  },
+
+  "auth_login": "Giriş Yap",
+  "@auth_login": {
+    "description": "Giriş yap butonu"
+  },
+  
+  "auth_register": "Kayıt Ol",
+  "@auth_register": {
+    "description": "Kayıt ol butonu"
+  },
+  
+  "auth_email": "E-posta",
+  "@auth_email": {
+    "description": "E-posta alanı"
+  },
+  
+  "auth_password": "Şifre",
+  "@auth_password": {
+    "description": "Şifre alanı"
+  },
+  
+  "auth_passwordAgain": "Şifre Tekrar",
+  "@auth_passwordAgain": {
+    "description": "Şifre tekrar alanı"
+  },
+  
+  "auth_name": "Ad Soyad",
+  "@auth_name": {
+    "description": "Ad soyad alanı"
+  },
+  
+  "auth_forgotPassword": "Şifreni mi unuttun?",
+  "@auth_forgotPassword": {
+    "description": "Şifremi unuttum linki"
+  },
+  
+  "auth_agreement": "Kullanım koşullarını kabul ediyorum",
+  "@auth_agreement": {
+    "description": "Sözleşme kabul checkbox'ı"
+  },
+  
+  "auth_agreementDesc": "Devam ederek Kullanım Koşulları ve Gizlilik Politikası'nı kabul etmiş olursunuz.",
+  "@auth_agreementDesc": {
+    "description": "Sözleşme açıklama metni"
+  },
+
+  "auth_welcomeDesc": "Film keyfini çıkartmak için doğru adrestesin!",
+  "@auth_welcomeDesc": {
+    "description": "Login sayfası hoş geldin açıklaması"
+  },
+
+  "auth_registerDesc": "SinFlix ile film deneyiminizi yükseltin!",
+  "@auth_registerDesc": {
+    "description": "Register sayfası açıklaması"
+  },
+
+  "auth_noAccountQuestion": "Bir hesabın yok mu? ",
+  "@auth_noAccountQuestion": {
+    "description": "Hesap olmayan kullanıcılar için soru"
+  },
+
+  "auth_hasAccountQuestion": "Zaten hesabın var mı? ",
+  "@auth_hasAccountQuestion": {
+    "description": "Hesabı olan kullanıcılar için soru"
+  },
+
+  "auth_registerNow": "Şimdi Kaydol",
+  "@auth_registerNow": {
+    "description": "Kayıt ol butonu"
+  },
+
+  "auth_agreementPrefix": "Kullanıcı sözleşmesini ",
+  "@auth_agreementPrefix": {
+    "description": "Sözleşme metninin başlangıcı"
+  },
+
+  "auth_agreementSuffix": "Bu sözleşmeyi okuyarak devam ediniz lütfen.",
+  "@auth_agreementSuffix": {
+    "description": "Sözleşme metninin sonu"
+  },
+  
+  "auth_or": "veya",
+  "@auth_or": {
+    "description": "Veya ayırıcı"
+  },
+  
+  "auth_loginSuccess": "Giriş başarılı!",
+  "@auth_loginSuccess": {
+    "description": "Başarılı giriş mesajı"
+  },
+  
+  "auth_loginError": "E-posta veya şifre hatalı!",
+  "@auth_loginError": {
+    "description": "Giriş hata mesajı"
+  },
+  
+  "auth_registerSuccess": "Kayıt başarılı!",
+  "@auth_registerSuccess": {
+    "description": "Başarılı kayıt mesajı"
+  },
+  
+  "auth_sessionExpired": "Oturum süresi dolmuş!",
+  "@auth_sessionExpired": {
+    "description": "Oturum dolma mesajı"
+  },
+
+  "profile_title": "Profil Detayı",
+  "@profile_title": {
+    "description": "Profil sayfası başlığı"
+  },
+  
+  "profile_addPhoto": "Fotoğraf Ekle",
+  "@profile_addPhoto": {
+    "description": "Fotoğraf ekleme butonu"
+  },
+  
+  "profile_favoriteMovies": "Beğendiğim Filmler",
+  "@profile_favoriteMovies": {
+    "description": "Favori filmler başlığı"
+  },
+  
+  "profile_noFavorites": "Henüz favori film yok",
+  "@profile_noFavorites": {
+    "description": "Favori film yok mesajı"
+  },
+  
+  "profile_photoUploadTitle": "Profil Fotoğrafı Ekle",
+  "@profile_photoUploadTitle": {
+    "description": "Profil fotoğrafı yükleme başlığı"
+  },
+  
+  "profile_photoUploadDesc": "Profil fotoğrafınızı yükleyerek hesabınızı kişiselleştirin",
+  "@profile_photoUploadDesc": {
+    "description": "Profil fotoğrafı açıklama"
+  },
+  
+  "profile_photoSelectFromGallery": "Galeriden Seç",
+  "@profile_photoSelectFromGallery": {
+    "description": "Galeriden fotoğraf seçme"
+  },
+  
+  "profile_photoContinue": "Devam Et",
+  "@profile_photoContinue": {
+    "description": "Devam etme butonu"
+  },
+  
+  "profile_photoUploadSuccess": "Profil fotoğrafı başarıyla yüklendi!",
+  "@profile_photoUploadSuccess": {
+    "description": "Fotoğraf yükleme başarı mesajı"
+  },
+  
+  "profile_photoTooBig": "📷 Fotoğraf çok büyük!\\n\\nLütfen daha küçük bir fotoğraf seçin veya fotoğrafınızı sıkıştırın.\\n\\n💡 İpucu: Telefonunuzdan çekilmiş normal fotoğraflar genelde uygun boyuttadır.",
+  "@profile_photoTooBig": {
+    "description": "Fotoğraf çok büyük hata mesajı"
+  },
+
+  "movies_title": "Filmler",
+  "@movies_title": {
+    "description": "Filmler sayfası başlığı"
+  },
+  
+  "movies_addToFavorites": "Favorilere Ekle",
+  "@movies_addToFavorites": {
+    "description": "Favorilere ekleme"
+  },
+  
+  "movies_removeFromFavorites": "Favorilerden Çıkar",
+  "@movies_removeFromFavorites": {
+    "description": "Favorilerden çıkarma"
+  },
+  
+  "movies_loadingMore": "Daha fazla film yükleniyor...",
+  "@movies_loadingMore": {
+    "description": "Daha fazla film yükleme"
+  },
+  
+  "movies_endOfList": "Tüm filmler yüklendi",
+  "@movies_endOfList": {
+    "description": "Film listesi sonu"
+  },
+  
+  "movies_refreshError": "Filmler yenilenemedi",
+  "@movies_refreshError": {
+    "description": "Film yenileme hatası"
+  },
+  
+  "movies_loadError": "Filmler yüklenemedi",
+  "@movies_loadError": {
+    "description": "Film yükleme hatası"
+  },
+
+  "movies_searchComingSoon": "Arama özelliği yakında!",
+  "@movies_searchComingSoon": {
+    "description": "Arama özelliği yakında mesajı"
+  },
+
+  "movieDetail_plot": "Konu",
+  "@movieDetail_plot": {
+    "description": "Film konusu başlığı"
+  },
+  
+  "movieDetail_movieInfo": "Film Bilgileri",
+  "@movieDetail_movieInfo": {
+    "description": "Film bilgileri başlığı"
+  },
+  
+  "movieDetail_castCrew": "Oyuncular ve Ekip",
+  "@movieDetail_castCrew": {
+    "description": "Oyuncular ve ekip başlığı"
+  },
+  
+  "movieDetail_awards": "Ödüller ve Başarılar",
+  "@movieDetail_awards": {
+    "description": "Ödüller başlığı"
+  },
+  
+  "movieDetail_genre": "Tür",
+  "@movieDetail_genre": {
+    "description": "Film türü"
+  },
+  
+  "movieDetail_runtime": "Süre",
+  "@movieDetail_runtime": {
+    "description": "Film süresi"
+  },
+  
+  "movieDetail_released": "Yayın Tarihi",
+  "@movieDetail_released": {
+    "description": "Yayın tarihi"
+  },
+  
+  "movieDetail_rated": "Yaş Sınırı",
+  "@movieDetail_rated": {
+    "description": "Yaş sınırı"
+  },
+  
+  "movieDetail_language": "Dil",
+  "@movieDetail_language": {
+    "description": "Film dili"
+  },
+  
+  "movieDetail_country": "Ülke",
+  "@movieDetail_country": {
+    "description": "Yapım ülkesi"
+  },
+  
+  "movieDetail_director": "Yönetmen",
+  "@movieDetail_director": {
+    "description": "Film yönetmeni"
+  },
+  
+  "movieDetail_writer": "Yazar",
+  "@movieDetail_writer": {
+    "description": "Senaryo yazarı"
+  },
+  
+  "movieDetail_actors": "Oyuncular",
+  "@movieDetail_actors": {
+    "description": "Film oyuncuları"
+  },
+  
+  "movieDetail_notSpecified": "Belirtilmemiş",
+  "@movieDetail_notSpecified": {
+    "description": "Bilgi belirtilmemiş"
+  },
+
+  "nav_home": "Anasayfa",
+  "@nav_home": {
+    "description": "Ana sayfa navigasyon"
+  },
+  
+  "nav_profile": "Profil",
+  "@nav_profile": {
+    "description": "Profil navigasyon"
+  },
+  
+  "nav_movies": "Filmler",
+  "@nav_movies": {
+    "description": "Filmler navigasyon"
+  },
+
+  "home_discoverMovies": "Tüm Filmleri Keşfet",
+  "@home_discoverMovies": {
+    "description": "Film keşfetme butonu"
+  },
+
+  "offer_limitedOffer": "Sınırlı Teklif",
+  "@offer_limitedOffer": {
+    "description": "Sınırlı teklif başlığı"
+  },
+  
+  "offer_subtitle": "Jeton paketini seçerek bonus kazanın ve yeni bölümlerin kilidini açın!",
+  "@offer_subtitle": {
+    "description": "Teklif açıklama metni"
+  },
+  
+  "offer_yourBonuses": "Alacağınız Bonuslar",
+  "@offer_yourBonuses": {
+    "description": "Bonuslar başlığı"
+  },
+  
+  "offer_premiumAccount": "Premium Hesap",
+  "@offer_premiumAccount": {
+    "description": "Premium hesap bonusu"
+  },
+  
+  "offer_moreMatches": "Fazla Eşleşme",
+  "@offer_moreMatches": {
+    "description": "Daha fazla eşleşme bonusu"
+  },
+  
+  "offer_putForward": "Öne Çıkarma",
+  "@offer_putForward": {
+    "description": "Öne çıkarma bonusu"
+  },
+  
+  "offer_moreBegeniler": "Fazla Beğeni",
+  "@offer_moreBegeniler": {
+    "description": "Daha fazla beğeni bonusu"
+  },
+  
+  "offer_selectPackage": "Kilidi açmak için bir jeton paketi seçin",
+  "@offer_selectPackage": {
+    "description": "Paket seçimi açıklaması"
+  },
+  
+  "offer_seeAllTokens": "Tüm Jetonları Gör",
+  "@offer_seeAllTokens": {
+    "description": "Tüm jetonları görme butonu"
+  },
+  
+  "offer_weeklyPrice": "Başına haftalık",
+  "@offer_weeklyPrice": {
+    "description": "Haftalık fiyat açıklaması"
+  },
+  
+  "offer_tokens": "Jeton",
+  "@offer_tokens": {
+    "description": "Jeton etiketi"
+  },
+
+  "language_changed": "Dil Türkçe olarak değiştirildi",
+  "@language_changed": {
+    "description": "Dil değiştirildi mesajı"
+  },
+
+  "language_changeToEnglish": "İngilizce'ye geç",
+  "@language_changeToEnglish": {
+    "description": "İngilizce'ye geçme butonu"
+  },
+
+  "language_changeToTurkish": "Türkçe'ye geç",
+  "@language_changeToTurkish": {
+    "description": "Türkçe'ye geçme butonu"
+  }
+} 

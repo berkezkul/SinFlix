@@ -53,6 +53,12 @@ dev_dependencies:
   firebase_storage: ^11.6.6
   image: ^4.1.7  # Image compression için
   path_provider: ^2.1.2  # File logging için
+  shared_preferences: ^2.5.3
+  
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -64,6 +70,10 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  
+  # Generate localization
+  generate: true
+  
   assets:
     - assets/images/
     - assets/animations/

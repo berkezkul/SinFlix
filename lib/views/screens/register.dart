@@ -12,6 +12,7 @@ import '../../utils/constants/text_styles.dart';
 import '../../utils/constants/icons.dart';
 import 'add_profile_photo.dart';
 import '../../utils/helpers/token_storage.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
@@ -54,13 +55,13 @@ class RegisterView extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "Hoşgeldiniz",
-                          style: AppTextStyles.headline,
-                          textAlign: TextAlign.center,
+                          AppLocalizations.of(context)!.common_welcome,
+                                                      style: AppTextStyles.headline,
+                            textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          "Tempus varius a vitae interdum id tortor elementum tristique eleifend at.",
+                          AppLocalizations.of(context)!.auth_registerDesc,
                           style: AppTextStyles.body.copyWith(
                             color: AppColors.lightGreyText,
                             fontSize: 14,
@@ -78,7 +79,7 @@ class RegisterView extends StatelessWidget {
                               padding: const EdgeInsets.all(12.0),
                               child: Image.asset(AppIcons.user, width: 24, height: 24),
                             ),
-                            hintText: "Ad Soyad",
+                            hintText: AppLocalizations.of(context)!.auth_name,
                             hintStyle: AppTextStyles.hint,
                             filled: true,
                             fillColor: AppColors.inputBackground,
@@ -107,7 +108,7 @@ class RegisterView extends StatelessWidget {
                               padding: const EdgeInsets.all(12.0),
                               child: Image.asset(AppIcons.mail, width: 24, height: 24),
                             ),
-                            hintText: "E-Posta",
+                            hintText: AppLocalizations.of(context)!.auth_email,
                             hintStyle: AppTextStyles.hint,
                             filled: true,
                             fillColor: AppColors.inputBackground,
@@ -144,7 +145,7 @@ class RegisterView extends StatelessWidget {
                               ),
                               onPressed: () => bloc.add(TogglePasswordVisibility()),
                             ),
-                            hintText: "Şifre",
+                            hintText: AppLocalizations.of(context)!.auth_password,
                             hintStyle: AppTextStyles.hint,
                             filled: true,
                             fillColor: AppColors.inputBackground,
@@ -181,7 +182,7 @@ class RegisterView extends StatelessWidget {
                               ),
                               onPressed: () => bloc.add(TogglePasswordAgainVisibility()),
                             ),
-                            hintText: "Şifre Tekrar",
+                            hintText: AppLocalizations.of(context)!.auth_passwordAgain,
                             hintStyle: AppTextStyles.hint,
                             filled: true,
                             fillColor: AppColors.inputBackground,
@@ -212,11 +213,11 @@ class RegisterView extends StatelessWidget {
                             Expanded(
                               child: RichText(
                                 text: TextSpan(
-                                  text: "Kullanıcı sözleşmesini ",
+                                  text: AppLocalizations.of(context)!.auth_agreementPrefix,
                                   style: AppTextStyles.caption,
                                   children: [
                                     TextSpan(
-                                      text: "okudum ve kabul ediyorum.",
+                                      text: AppLocalizations.of(context)!.auth_agreement,
                                       style: AppTextStyles.caption.copyWith(
                                         color: AppColors.white,
                                         fontWeight: FontWeight.bold,
@@ -224,7 +225,7 @@ class RegisterView extends StatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: " Bu sözleşmeyi okuyarak devam ediniz lütfen.",
+                                      text: " ${AppLocalizations.of(context)!.auth_agreementSuffix}",
                                       style: AppTextStyles.caption,
                                     ),
                                   ],
@@ -286,7 +287,7 @@ class RegisterView extends StatelessWidget {
                               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                             )
                                 : Text(
-                              "Şimdi Kaydol",
+                              AppLocalizations.of(context)!.auth_registerNow,
                               style: AppTextStyles.button,
                             ),
                           ),
@@ -307,7 +308,7 @@ class RegisterView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Zaten bir hesabın var mı? ",
+                              AppLocalizations.of(context)!.auth_hasAccountQuestion,
                               style: AppTextStyles.caption,
                             ),
                             GestureDetector(
@@ -315,7 +316,7 @@ class RegisterView extends StatelessWidget {
                                 Navigator.of(context).pop(); // Login ekranına dön
                               },
                               child: Text(
-                                "Giriş Yap!",
+                                AppLocalizations.of(context)!.auth_login,
                                 style: AppTextStyles.caption.copyWith(
                                   color: AppColors.white,
                                   fontWeight: FontWeight.bold,

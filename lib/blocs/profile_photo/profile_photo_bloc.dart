@@ -61,8 +61,8 @@ class ProfilePhotoBloc extends Bloc<ProfilePhotoEvent, ProfilePhotoState> {
           }
           emit(state.copyWith(isLoading: false, error: null, photoUrl: photoUrl ?? 'uploaded'));
           // Context gerektirmeden navigation ve feedback
-          NavigationService().showSuccess("Profil fotoğrafı başarıyla yüklendi!");
-          NavigationService().goToHome();
+                      NavigationService.instance.showSuccess("Profil fotoğrafı başarıyla yüklendi!");
+            NavigationService.instance.goToHome();
         } else {
           String errorMessage;
           if (response.statusCode == 413) {

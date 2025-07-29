@@ -13,6 +13,7 @@ import '../../utils/constants/text_styles.dart';
 import '../../utils/constants/strings.dart';
 import '../../utils/constants/icons.dart';
 import '../../utils/helpers/token_storage.dart';
+import '../../l10n/generated/app_localizations.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -55,13 +56,13 @@ class LoginView extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          AppStrings.welcome,
+                          AppLocalizations.of(context)!.common_welcome,
                           style: AppTextStyles.headline,
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          "Tempus varius a vitae interdum id tortor elementum tristique eleifend at.",
+                          AppLocalizations.of(context)!.auth_welcomeDesc,
                           style: AppTextStyles.body.copyWith(
                             color: AppColors.lightGreyText,
                             fontSize: 14,
@@ -79,7 +80,7 @@ class LoginView extends StatelessWidget {
                               padding: const EdgeInsets.all(12.0),
                               child: Image.asset(AppIcons.mail, width: 24, height: 24),
                             ),
-                            hintText: AppStrings.email,
+                            hintText: AppLocalizations.of(context)!.auth_email,
                             hintStyle: AppTextStyles.hint,
                             filled: true,
                             fillColor: AppColors.inputBackground,
@@ -116,7 +117,7 @@ class LoginView extends StatelessWidget {
                               ),
                               onPressed: () => loginBloc.add(TogglePasswordVisibility()),
                             ),
-                            hintText: AppStrings.password,
+                            hintText: AppLocalizations.of(context)!.auth_password,
                             hintStyle: AppTextStyles.hint,
                             filled: true,
                             fillColor: AppColors.inputBackground,
@@ -147,7 +148,7 @@ class LoginView extends StatelessWidget {
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                             child: Text(
-                              AppStrings.forgotPassword,
+                              AppLocalizations.of(context)!.auth_forgotPassword,
                               style: AppTextStyles.link,
                             ),
                           ),
@@ -179,7 +180,7 @@ class LoginView extends StatelessWidget {
                               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                             )
                                 : Text(
-                              AppStrings.login,
+                              AppLocalizations.of(context)!.auth_login,
                               style: AppTextStyles.button,
                             ),
                           ),
@@ -207,7 +208,7 @@ class LoginView extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Bir hesabın yok mu? ",
+                              AppLocalizations.of(context)!.auth_noAccountQuestion,
                               style: AppTextStyles.caption,
                             ),
                             GestureDetector(
@@ -225,7 +226,7 @@ class LoginView extends StatelessWidget {
                                 );
                               },
                               child: Text(
-                                "Kayıt Ol!",
+                                AppLocalizations.of(context)!.auth_register,
                                 style: AppTextStyles.caption.copyWith(
                                   color: AppColors.white,
                                   fontWeight: FontWeight.bold,
