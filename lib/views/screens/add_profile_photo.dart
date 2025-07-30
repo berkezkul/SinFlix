@@ -69,10 +69,29 @@ class ProfilePhotoView extends StatelessWidget {
               builder: (context, state) {
                 final bloc = context.read<ProfilePhotoBloc>();
                 return Column(
-
                   children: [
+                    const SizedBox(height: 32),
+                    Text(
+                      AppLocalizations.of(context).profile_photoTitle,
+                      style: AppTextStyles.headline.copyWith(
+                        color: Colors.white,
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      AppLocalizations.of(context).profile_photoSubtitle,
+                      style: AppTextStyles.body.copyWith(
+                        color: Colors.white.withOpacity(0.7),
+                        fontSize: 15,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 32),
 
-                    // ... (UI kodun değişmeden devam edebilir)
+
                     GestureDetector(
                       onTap: state.isLoading ? null : () => _pickImage(context),
                       child: Container(
@@ -155,7 +174,7 @@ class ProfilePhotoView extends StatelessWidget {
                           )
                         */
                               : Text(
-                            AppLocalizations.of(context)!.profile_photoContinue,
+                            AppLocalizations.of(context).profile_photoContinue,
                             style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                           ),
                         ),

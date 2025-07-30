@@ -84,14 +84,6 @@ class _MoviesViewState extends State<MoviesView> {
                 fit: BoxFit.contain,
               ),
               actions: [
-                // Manuel test butonu ekle
-                IconButton(
-                  icon: const Icon(Icons.skip_next, color: Colors.white),
-                  onPressed: () {
-                    print(' Manual LoadMoreMovies test');
-                    context.read<MovieBloc>().add(LoadMoreMovies());
-                  },
-                ),
                 IconButton(
                   icon: const Icon(Icons.search, color: Colors.white),
                   onPressed: () {
@@ -107,16 +99,16 @@ class _MoviesViewState extends State<MoviesView> {
               builder: (context, state) {
                 // Daha detaylı debug logging
                 print('🎬 ===== Movies State Debug =====');
-                print('📊 Movies Count: ${state.movies.length}');
-                print('📄 Current Page: ${state.currentPage}');
-                print('🔚 Has Reached Max: ${state.hasReachedMax}');
-                print('⏳ Is Loading: ${state.isLoading}');
-                print('⏳ Is Loading More: ${state.isLoadingMore}');
-                print('⏳ Is Refreshing: ${state.isRefreshing}');
-                print('❌ Error: ${state.error}');
+                print(' Movies Count: ${state.movies.length}');
+                print(' Current Page: ${state.currentPage}');
+                print(' Has Reached Max: ${state.hasReachedMax}');
+                print(' Is Loading: ${state.isLoading}');
+                print(' Is Loading More: ${state.isLoadingMore}');
+                print(' Is Refreshing: ${state.isRefreshing}');
+                print(' Error: ${state.error}');
                 if (state.movies.isNotEmpty) {
-                  print('🎭 First Movie: ${state.movies.first.title}');
-                  print('🎭 Last Movie: ${state.movies.last.title}');
+                  print('First Movie: ${state.movies.first.title}');
+                  print('Last Movie: ${state.movies.last.title}');
                 }
                 print('🎬 ==============================');
                 

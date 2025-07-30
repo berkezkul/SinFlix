@@ -135,6 +135,13 @@ class AppLocalizationsTr extends AppLocalizations {
       '📷 Fotoğraf çok büyük!\\n\\nLütfen daha küçük bir fotoğraf seçin veya fotoğrafınızı sıkıştırın.\\n\\n💡 İpucu: Telefonunuzdan çekilmiş normal fotoğraflar genelde uygun boyuttadır.';
 
   @override
+  String get profile_photoTitle => 'Fotoğrafınızı Yükleyiniz';
+
+  @override
+  String get profile_photoSubtitle =>
+      'Sizi en iyi tanımlayan fotoğrafınızı ekleyiniz';
+
+  @override
   String get movies_title => 'Filmler';
 
   @override

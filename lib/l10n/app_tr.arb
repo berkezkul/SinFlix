@@ -202,6 +202,11 @@
     "description": "Fotoğraf çok büyük hata mesajı"
   },
 
+  "profile_photoTitle": "Fotoğrafınızı Yükleyiniz",
+
+  "profile_photoSubtitle": "Sizi en iyi tanımlayan fotoğrafınızı ekleyiniz",
+
+
   "movies_title": "Filmler",
   "@movies_title": {
     "description": "Filmler sayfası başlığı"

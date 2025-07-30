@@ -45,7 +45,8 @@
   "profile_photoContinue": "Continue",
   "profile_photoUploadSuccess": "Profile photo uploaded successfully!",
   "profile_photoTooBig": "📷 Photo is too big!\\n\\nPlease select a smaller photo or compress your photo.\\n\\n💡 Tip: Normal photos taken from your phone are usually suitable.",
-
+  "profile_photoTitle": "Upload Your Photo",
+  "profile_photoSubtitle": "Add the photo that best represents you",
   "movies_title": "Movies",
   "movies_addToFavorites": "Add to Favorites",
   "movies_removeFromFavorites": "Remove from Favorites",

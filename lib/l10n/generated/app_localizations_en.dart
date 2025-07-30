@@ -134,6 +134,12 @@ class AppLocalizationsEn extends AppLocalizations {
       '📷 Photo is too big!\\n\\nPlease select a smaller photo or compress your photo.\\n\\n💡 Tip: Normal photos taken from your phone are usually suitable.';
 
   @override
+  String get profile_photoTitle => 'Upload Your Photo';
+
+  @override
+  String get profile_photoSubtitle => 'Add the photo that best represents you';
+
+  @override
   String get movies_title => 'Movies';
 
   @override

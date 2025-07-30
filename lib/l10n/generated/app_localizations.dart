@@ -338,6 +338,18 @@ abstract class AppLocalizations {
   /// **'📷 Fotoğraf çok büyük!\\n\\nLütfen daha küçük bir fotoğraf seçin veya fotoğrafınızı sıkıştırın.\\n\\n💡 İpucu: Telefonunuzdan çekilmiş normal fotoğraflar genelde uygun boyuttadır.'**
   String get profile_photoTooBig;
 
+  /// No description provided for @profile_photoTitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Fotoğrafınızı Yükleyiniz'**
+  String get profile_photoTitle;
+
+  /// No description provided for @profile_photoSubtitle.
+  ///
+  /// In tr, this message translates to:
+  /// **'Sizi en iyi tanımlayan fotoğrafınızı ekleyiniz'**
+  String get profile_photoSubtitle;
+
   /// Filmler sayfası başlığı
   ///
   /// In tr, this message translates to:
