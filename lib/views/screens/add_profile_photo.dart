@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:lottie/lottie.dart';
 import '../../blocs/profile_photo/profile_photo_bloc.dart';
 import '../../blocs/profile_photo/profile_photo_event.dart';
 import '../../blocs/profile_photo/profile_photo_state.dart';
@@ -94,15 +95,25 @@ class ProfilePhotoView extends StatelessWidget {
                             color: AppColors.border,
                           ),
                         )
-                            : ClipRRect(
-                          borderRadius: BorderRadius.circular(24),
-                          child: Image.file(
-                            state.photo!,
-                            fit: BoxFit.cover,
-                            width: 140,
-                            height: 140,
-                          ),
-                        ),
+                            : state.isLoading
+                                ? Center(
+                                    child: Lottie.asset(
+                                      'assets/animations/popcorn.json',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.contain,
+                                      repeat: true,
+                                    ),
+                                  )
+                                : ClipRRect(
+                                    borderRadius: BorderRadius.circular(24),
+                                    child: Image.file(
+                                      state.photo!,
+                                      fit: BoxFit.cover,
+                                      width: 140,
+                                      height: 140,
+                                    ),
+                                  ),
                       ),
                     ),
                     if (state.error != null) ...[
@@ -131,9 +142,18 @@ class ProfilePhotoView extends StatelessWidget {
                             ),
                           ),
                           child: state.isLoading
-                              ? const CircularProgressIndicator(
+                              ? Center(
+                          child: Lottie.asset(
+                'assets/animations/popcorn.json',
+                width: 180,
+                height: 180,
+                fit: BoxFit.contain,
+                repeat: true,
+                ),
+                )/*const CircularProgressIndicator(
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           )
+                        */
                               : Text(
                             AppLocalizations.of(context)!.profile_photoContinue,
                             style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),

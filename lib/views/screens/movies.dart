@@ -10,6 +10,7 @@ import '../../utils/constants/dimens.dart';
 import 'movie_detail.dart';
 import 'profile.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'package:lottie/lottie.dart';
 
 class MoviesView extends StatefulWidget {
   const MoviesView({super.key});
@@ -87,7 +88,7 @@ class _MoviesViewState extends State<MoviesView> {
                 IconButton(
                   icon: const Icon(Icons.skip_next, color: Colors.white),
                   onPressed: () {
-                    print('🧪 Manual LoadMoreMovies test');
+                    print(' Manual LoadMoreMovies test');
                     context.read<MovieBloc>().add(LoadMoreMovies());
                   },
                 ),
@@ -195,11 +196,17 @@ class _MoviesViewState extends State<MoviesView> {
                       
                       // Loading indicator for infinite scroll
                       if (state.isLoadingMore)
-                        const SliverToBoxAdapter(
+                        SliverToBoxAdapter(
                           child: Padding(
-                            padding: EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(16),
                             child: Center(
-                              child: CircularProgressIndicator(color: AppColors.red),
+                              child: Lottie.asset(
+                                'assets/animations/popcorn.json',
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.contain,
+                                repeat: true,
+                              ),
                             ),
                           ),
                         ),
