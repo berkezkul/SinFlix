@@ -14,6 +14,7 @@ import '../../utils/constants/offer_assets.dart';
 import '../../repositories/movie_repository.dart';
 import '../../views/screens/movie_detail.dart';
 import '../../l10n/generated/app_localizations.dart';
+import '../../views/screens/add_profile_photo.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -37,7 +38,7 @@ class _ProfileViewState extends State<ProfileView> {
         appBar: AppBar(
           backgroundColor: AppColors.background,
           elevation: 0,
-          centerTitle: true, // Bu AppBar title'ını ortalar
+          centerTitle: true,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.white),
             onPressed: () => Navigator.of(context).pop(),
@@ -190,17 +191,26 @@ class _ProfileViewState extends State<ProfileView> {
                           ),
                           
                           // Fotoğraf ekle butonu
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: AppColors.red,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Text(
-                              AppLocalizations.of(context)!.profile_addPhoto,
-                              style: AppTextStyles.button.copyWith(
-                                color: Colors.white,
-                                fontSize: 12,
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const ProfilePhotoView(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: AppColors.red,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Text(
+                                AppLocalizations.of(context)!.profile_addPhoto,
+                                style: AppTextStyles.button.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
                               ),
                             ),
                           ),
