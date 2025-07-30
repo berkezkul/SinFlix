@@ -137,15 +137,22 @@ flutter_launcher_icons:
 
 # Flutter Native Splash configuration
 flutter_native_splash:
-  color: "#000000"
-  image: "assets/images/splash/SinFlixSplash.png"
-  color_dark: "#000000"
-  image_dark: "assets/images/splash/SinFlixSplash.png"
+  # Tam ekran arkaplan resmi
+  background_image: "assets/images/splash/SinFlixSplash.png"
+  background_image_dark: "assets/images/splash/SinFlixSplash.png"
   
+  # Fallback renk
+  color: "#000000"
+  color_dark: "#000000"
+  
+  # Android 12+ tam ekran
   android_12:
-    image: "assets/images/splash/SinFlixSplash.png"
-    icon_background_color: "#000000"
-    image_dark: "assets/images/splash/SinFlixSplash.png"
-    icon_background_color_dark: "#000000"
+    background_image: "assets/images/splash/SinFlixSplash.png"
+    background_image_dark: "assets/images/splash/SinFlixSplash.png"
+    color: "#000000"
+    color_dark: "#000000"
+  
+  # Tam ekran ayarları
+  fullscreen: true
   
   web: false
