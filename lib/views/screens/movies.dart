@@ -90,17 +90,7 @@ class _MoviesViewState extends State<MoviesView> {
                 height: 32,
                 fit: BoxFit.contain,
               ),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.search, color: Colors.white),
-                  onPressed: () {
-                    // TODO: Search functionality
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(AppLocalizations.of(context)!.movies_searchComingSoon)),
-                    );
-                  },
-                ),
-              ],
+
             ),
             body: BlocBuilder<MovieBloc, MovieState>(
               builder: (context, state) {
