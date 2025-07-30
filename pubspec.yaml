@@ -60,6 +60,7 @@ dev_dependencies:
   image: ^4.1.7  # Image compression için
   path_provider: ^2.1.2  # File logging için
   shared_preferences: ^2.5.3
+
   
   # App Icon & Splash Screen
   flutter_launcher_icons: ^0.14.1

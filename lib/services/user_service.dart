@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/user.dart';
@@ -49,20 +50,42 @@ class UserService {
   }
 
   Future<String?> register(String name, String email, String password) async {
-    final response = await http.post(
-      Uri.parse('$baseUrl/user/register'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'name': name, 'email': email, 'password': password}),
-    );
-    print('Register response: ${response.statusCode} - ${response.body}');
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final data = jsonDecode(response.body);
-      if (data['data'] != null && data['data']['token'] is String) {
-        return data['data']['token'];
+    try {
+      print('🔄 Register API call starting...');
+      print('📍 URL: $baseUrl/user/register');
+      print('📝 Data: {"name": "$name", "email": "$email", "password": "***"}');
+      
+      final response = await http.post(
+        Uri.parse('$baseUrl/user/register'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'name': name, 'email': email, 'password': password}),
+      ).timeout(
+        const Duration(seconds: 30),
+        onTimeout: () {
+          print('⏰ Register API timeout after 30 seconds');
+          throw TimeoutException('Register request timed out');
+        },
+      );
+      
+      print('✅ Register response: ${response.statusCode} - ${response.body}');
+      
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final data = jsonDecode(response.body);
+        if (data['data'] != null && data['data']['token'] is String) {
+          print('🎉 Register successful, token received');
+          return data['data']['token'];
+        } else {
+          print('❌ Register failed: No token in response');
+          return null;
+        }
+      } else {
+        print('❌ Register failed: Status ${response.statusCode}');
+        return null;
       }
+    } catch (e) {
+      print('💥 Register error: $e');
       return null;
     }
-    return null;
   }
 
   Future<bool> uploadPhoto(String token, String photoUrl) async {
