@@ -21,7 +21,7 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
         : const Locale('tr', 'TR');
     
     emit(LanguageLoaded(locale));
-    print('🌍 Loaded language: $_currentLanguageCode');
+    print(' Loaded language: $_currentLanguageCode');
   }
 
   void _onChangeLanguage(
@@ -32,9 +32,9 @@ class LanguageBloc extends Bloc<LanguageEvent, LanguageState> {
       _currentLanguageCode = event.locale.languageCode;
       emit(LanguageLoaded(event.locale));
       
-      print('🌍 Language changed to: ${event.locale.languageCode}');
+      print('Language changed to: ${event.locale.languageCode}');
     } catch (e) {
-      print('❌ Error changing language: $e');
+      print('Error changing language: $e');
     }
   }
 } 

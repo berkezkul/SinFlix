@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/movie/movie_bloc.dart';
@@ -36,11 +37,17 @@ class _MoviesViewState extends State<MoviesView> {
   }
 
   void _onScroll() {
-    print('🔄 Scroll Event - Current: ${_scrollController.offset}, Max: ${_scrollController.position.maxScrollExtent}');
-    print('🔄 Is Bottom: $_isBottom, MovieBloc exists: ${_movieBloc != null}');
+    if (kDebugMode) {
+      print(' Scroll Event - Current: ${_scrollController.offset}, Max: ${_scrollController.position.maxScrollExtent}');
+    }
+    if (kDebugMode) {
+      print(' Is Bottom: $_isBottom, MovieBloc exists: ${_movieBloc != null}');
+    }
     
     if (_movieBloc != null && _isBottom) {
-      print('🚀 Triggering LoadMoreMovies...');
+      if (kDebugMode) {
+        print('🚀 Triggering LoadMoreMovies...');
+      }
       _movieBloc!.add(LoadMoreMovies());
     }
   }
@@ -98,19 +105,41 @@ class _MoviesViewState extends State<MoviesView> {
             body: BlocBuilder<MovieBloc, MovieState>(
               builder: (context, state) {
                 // Daha detaylı debug logging
-                print('🎬 ===== Movies State Debug =====');
-                print(' Movies Count: ${state.movies.length}');
-                print(' Current Page: ${state.currentPage}');
-                print(' Has Reached Max: ${state.hasReachedMax}');
-                print(' Is Loading: ${state.isLoading}');
-                print(' Is Loading More: ${state.isLoadingMore}');
-                print(' Is Refreshing: ${state.isRefreshing}');
-                print(' Error: ${state.error}');
-                if (state.movies.isNotEmpty) {
-                  print('First Movie: ${state.movies.first.title}');
-                  print('Last Movie: ${state.movies.last.title}');
+                if (kDebugMode) {
+                  print(' ===== Movies State Debug =====');
                 }
-                print('🎬 ==============================');
+                if (kDebugMode) {
+                  print(' Movies Count: ${state.movies.length}');
+                }
+                if (kDebugMode) {
+                  print(' Current Page: ${state.currentPage}');
+                }
+                if (kDebugMode) {
+                  print(' Has Reached Max: ${state.hasReachedMax}');
+                }
+                if (kDebugMode) {
+                  print(' Is Loading: ${state.isLoading}');
+                }
+                if (kDebugMode) {
+                  print(' Is Loading More: ${state.isLoadingMore}');
+                }
+                if (kDebugMode) {
+                  print(' Is Refreshing: ${state.isRefreshing}');
+                }
+                if (kDebugMode) {
+                  print(' Error: ${state.error}');
+                }
+                if (state.movies.isNotEmpty) {
+                  if (kDebugMode) {
+                    print('First Movie: ${state.movies.first.title}');
+                  }
+                  if (kDebugMode) {
+                    print('Last Movie: ${state.movies.last.title}');
+                  }
+                }
+                if (kDebugMode) {
+                  print(' ==============================');
+                }
                 
                 if (state.isLoading && state.movies.isEmpty) {
                   return const Center(

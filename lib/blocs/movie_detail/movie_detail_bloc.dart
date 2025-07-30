@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'movie_detail_event.dart';
 import 'movie_detail_state.dart';
@@ -18,10 +19,10 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
       final currentState = state as MovieDetailLoaded;
       final currentMovie = currentState.movie;
       
-      // Optimistic update - önce UI'ı güncelle
+
       final optimisticMovie = currentMovie.copyWith(isFavorite: !currentMovie.isFavorite);
       emit(MovieDetailLoaded(optimisticMovie));
-      print('🎬 Movie detail optimistic update: "${currentMovie.title}" isFavorite: ${currentMovie.isFavorite} -> ${optimisticMovie.isFavorite}');
+      print(' Movie detail optimistic update: "${currentMovie.title}" isFavorite: ${currentMovie.isFavorite} -> ${optimisticMovie.isFavorite}');
       
       try {
         final token = await TokenStorage.getToken();
@@ -31,19 +32,27 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
           return;
         }
         
-        print('🎬 Toggling favorite for movie: ${currentMovie.title}');
+        if (kDebugMode) {
+          print(' Toggling favorite for movie: ${currentMovie.title}');
+        }
         final success = await movieRepository.toggleFavorite(event.movieId, token);
         
         if (success) {
-          print('🎬 Favorite toggled successfully: ${optimisticMovie.isFavorite}');
+          if (kDebugMode) {
+            print('🎬 Favorite toggled successfully: ${optimisticMovie.isFavorite}');
+          }
           // Başarılı - optimistic update zaten yapıldı
         } else {
-          print('❌ Failed to toggle favorite - reverting');
+          if (kDebugMode) {
+            print(' Failed to toggle favorite - reverting');
+          }
           // Başarısızsa geri al
           emit(MovieDetailLoaded(currentMovie));
         }
       } catch (e) {
-        print('❌ Toggle favorite error: $e');
+        if (kDebugMode) {
+          print(' Toggle favorite error: $e');
+        }
         // Hata durumunda geri al
         emit(MovieDetailLoaded(currentMovie));
       }

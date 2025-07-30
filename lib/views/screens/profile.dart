@@ -498,16 +498,16 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
   void _showOfferBottomSheet(BuildContext context) {
-    final offerBloc = context.read<OfferBloc>(); // Parent context'ten al
+    final offerBloc = context.read<OfferBloc>();
     
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       backgroundColor: AppColors.offer_bg,
       builder: (modalContext) => BlocProvider.value(
-        value: offerBloc, // Direkt instance geçir
+        value: offerBloc,
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.8, // Daha küçük yap
+          height: MediaQuery.of(context).size.height * 0.8,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topRight,
@@ -548,10 +548,10 @@ class _ProfileViewState extends State<ProfileView> {
                   AppLocalizations.of(context).offer_subtitle,
                   textAlign: TextAlign.center,
                   style: AppTextStyles.body.copyWith(
-                    color: Colors.white.withOpacity(0.9), // Daha belirgin
-                    fontSize: 12, // Daha büyük font
+                    color: Colors.white.withOpacity(0.9),
+                    fontSize: 12,
                     fontWeight: FontWeight.w500,
-                    height: 1.4, // Daha rahat satır yüksekliği
+                    height: 1.4,
                   ),
                 ),
               ),
@@ -590,9 +590,8 @@ class _ProfileViewState extends State<ProfileView> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 12), // Daha az boşluk
+                    const SizedBox(height: 12),
                     
-                    // 4 bonus item yan yana - responsive
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [

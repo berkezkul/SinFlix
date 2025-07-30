@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'movie_event.dart';
 import 'movie_state.dart';
@@ -24,13 +25,13 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       
       if (moviesData != null) {
         final movies = moviesData['movies'] as List<Movie>; // Movie listesi olarak cast
-        print('🎬 Initial load - movies count: ${movies.length}');
+        print(' Initial load - movies count: ${movies.length}');
         
         emit(state.copyWith(
           isLoading: false,
           movies: movies,
           currentPage: 1,
-          hasReachedMax: false, // İlk yüklemede asla max'a ulaşmış olmayız!
+          hasReachedMax: false,
         ));
       } else {
         emit(state.copyWith(
@@ -47,22 +48,32 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 
   Future<void> _onLoadMoreMovies(LoadMoreMovies event, Emitter<MovieState> emit) async {
-    print('🎬 LoadMoreMovies called!');
-    print('🔚 HasReachedMax: ${state.hasReachedMax}');
-    print('⏳ IsLoadingMore: ${state.isLoadingMore}');
+    if (kDebugMode) {
+      print(' LoadMoreMovies called!');
+    }
+    if (kDebugMode) {
+      print(' HasReachedMax: ${state.hasReachedMax}');
+    }
+    if (kDebugMode) {
+      print(' IsLoadingMore: ${state.isLoadingMore}');
+    }
     
     if (state.hasReachedMax || state.isLoadingMore) {
-      print('❌ LoadMoreMovies blocked - HasReachedMax: ${state.hasReachedMax}, IsLoadingMore: ${state.isLoadingMore}');
+      if (kDebugMode) {
+        print(' LoadMoreMovies blocked - HasReachedMax: ${state.hasReachedMax}, IsLoadingMore: ${state.isLoadingMore}');
+      }
       return;
     }
     
-    print('✅ LoadMoreMovies proceeding...');
+    if (kDebugMode) {
+      print(' LoadMoreMovies proceeding...');
+    }
     emit(state.copyWith(isLoadingMore: true));
     
     try {
       final token = await TokenStorage.getToken();
       final nextPage = state.currentPage + 1;
-      print('📄 Loading page: $nextPage');
+      print(' Loading page: $nextPage');
       
       final moviesData = await movieRepository.getMovies(page: nextPage, token: token);
       
@@ -72,15 +83,16 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         
         if (newMovies.isEmpty) {
           // Boş sayfa geldi, maksimuma ulaştık
-          print('🔚 No more movies - setting hasReachedMax to true');
+          if (kDebugMode) {
+            print(' No more movies - setting hasReachedMax to true');
+          }
           emit(state.copyWith(
             isLoadingMore: false,
             hasReachedMax: true,
           ));
         } else {
-          // Yeni filmler var, listeye ekle
           final allMovies = List<Movie>.from(state.movies)..addAll(newMovies);
-          print('🎬 Total movies after adding: ${allMovies.length}');
+          print(' Total movies after adding: ${allMovies.length}');
           
           emit(state.copyWith(
             isLoadingMore: false,
@@ -90,14 +102,18 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
           ));
         }
       } else {
-        print('❌ moviesData is null');
+        if (kDebugMode) {
+          print(' moviesData is null');
+        }
         emit(state.copyWith(
           isLoadingMore: false,
           error: "Daha fazla film yüklenemedi",
         ));
       }
     } catch (e) {
-      print('❌ LoadMoreMovies error: $e');
+      if (kDebugMode) {
+        print(' LoadMoreMovies error: $e');
+      }
       emit(state.copyWith(
         isLoadingMore: false,
         error: "Hata oluştu: $e",
@@ -114,13 +130,15 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       
       if (moviesData != null) {
         final movies = moviesData['movies'] as List<Movie>; // Movie listesi olarak cast
-        print('🔄 Refresh - movies count: ${movies.length}');
+        if (kDebugMode) {
+          print(' Refresh - movies count: ${movies.length}');
+        }
         
         emit(state.copyWith(
           isRefreshing: false,
           movies: movies,
           currentPage: 1,
-          hasReachedMax: false, // Refresh sonrası da max'a ulaşmış olmayız!
+          hasReachedMax: false,
         ));
       } else {
         emit(state.copyWith(
@@ -137,13 +155,13 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   }
 
   Future<void> _onToggleFavorite(ToggleFavorite event, Emitter<MovieState> emit) async {
-    print('💖 ToggleFavorite event received for movieId: ${event.movieId}');
+    print(' ToggleFavorite event received for movieId: ${event.movieId}');
     
     // Önce local state'i güncelle (Optimistic Update)
     final updatedMovies = state.movies.map((movie) {
       if (movie.id == event.movieId) {
         final updatedMovie = movie.copyWith(isFavorite: !movie.isFavorite);
-        print('🎬 Optimistic update: "${movie.title}" isFavorite: ${movie.isFavorite} -> ${updatedMovie.isFavorite}');
+        print(' Optimistic update: "${movie.title}" isFavorite: ${movie.isFavorite} -> ${updatedMovie.isFavorite}');
         return updatedMovie;
       }
       return movie;
@@ -154,25 +172,35 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     try {
       final token = await TokenStorage.getToken();
       if (token == null) {
-        print('❌ No token available for favorite toggle');
+        if (kDebugMode) {
+          print('❌ No token available for favorite toggle');
+        }
         // Token yoksa optimistic update'i geri al
         emit(state.copyWith(movies: state.movies));
         return;
       }
       
-      print('🔄 Calling toggleFavorite API...');
+      if (kDebugMode) {
+        print(' Calling toggleFavorite API...');
+      }
       final success = await movieRepository.toggleFavorite(event.movieId, token);
       
       if (success) {
-        print('✅ Toggle favorite API success - keeping optimistic update');
+        if (kDebugMode) {
+          print(' Toggle favorite API success - keeping optimistic update');
+        }
       } else {
-        print('❌ Toggle favorite API failed - reverting optimistic update');
+        if (kDebugMode) {
+          print(' Toggle favorite API failed - reverting optimistic update');
+        }
         
         // API başarısız olduysa optimistic update'i geri al
         final revertedMovies = state.movies.map((movie) {
           if (movie.id == event.movieId) {
             final revertedMovie = movie.copyWith(isFavorite: !movie.isFavorite);
-            print('🔄 Reverted movie "${movie.title}" isFavorite back to: ${revertedMovie.isFavorite}');
+            if (kDebugMode) {
+              print('🔄 Reverted movie "${movie.title}" isFavorite back to: ${revertedMovie.isFavorite}');
+            }
             return revertedMovie;
           }
           return movie;
@@ -184,7 +212,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         ));
       }
     } catch (e) {
-      print('❌ Toggle favorite error: $e');
+      print(' Toggle favorite error: $e');
       
       // Hata durumunda optimistic update'i geri al
       final revertedMovies = state.movies.map((movie) {

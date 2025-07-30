@@ -70,7 +70,7 @@ class ProfilePhotoView extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: AppColors.background,
             elevation: 0,
-            centerTitle: true, // Bu AppBar title'ını ortalar
+            centerTitle: true,
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () => Navigator.of(context).pop(),

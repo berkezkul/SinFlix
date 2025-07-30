@@ -61,20 +61,19 @@ Widget buildModernPackageCard({
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween, // İçeriği dağıt
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // Üst kısım
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      // Üstte boşluk bırak discount badge için
                       const SizedBox(height: 20),
 
                       Text(
                         jetonsOld,
                         style: AppTextStyles.headline.copyWith(
                           color: Colors.white,
-                          fontSize: 16, // Daha küçük font
+                          fontSize: 16,
                           fontWeight: FontWeight.w600,
                           decoration: TextDecoration.lineThrough,
                           decorationColor: Colors.white.withOpacity(0.6),
@@ -86,7 +85,7 @@ Widget buildModernPackageCard({
                         jetonsNew,
                         style: AppTextStyles.headline.copyWith(
                           color: Colors.white,
-                          fontSize: 22, // Daha küçük font
+                          fontSize: 22,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
@@ -95,7 +94,7 @@ Widget buildModernPackageCard({
                         'Jeton',
                         style: AppTextStyles.body.copyWith(
                           color: Colors.white,
-                          fontSize: 13, // Daha küçük font
+                          fontSize: 13,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -110,7 +109,7 @@ Widget buildModernPackageCard({
                         price,
                         style: AppTextStyles.headline.copyWith(
                           color: Colors.white,
-                          fontSize: 14, // Daha küçük font
+                          fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -119,7 +118,7 @@ Widget buildModernPackageCard({
                         AppLocalizations.of(context)!.offer_weeklyPrice,
                         style: AppTextStyles.body.copyWith(
                           color: Colors.white.withOpacity(0.8),
-                          fontSize: 9, // Daha küçük font
+                          fontSize: 9,
                         ),
                       ),
                     ],

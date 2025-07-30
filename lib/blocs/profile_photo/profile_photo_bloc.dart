@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'profile_photo_event.dart';
 import 'profile_photo_state.dart';
@@ -13,7 +14,7 @@ import 'dart:convert';
 class ProfilePhotoBloc extends Bloc<ProfilePhotoEvent, ProfilePhotoState> {
   ProfilePhotoBloc() : super(const ProfilePhotoState()) {
     on<PhotoSelected>((event, emit) {
-      // Loading state'tayken yeni fotoğraf seçilmesini engelle
+      // Loading state'tayken yeni fotoğraf seçilmesini engelledim
       if (state.isLoading) return;
       emit(state.copyWith(photo: event.photo, error: null));
     });
@@ -33,13 +34,13 @@ class ProfilePhotoBloc extends Bloc<ProfilePhotoEvent, ProfilePhotoState> {
           return;
         }
 
-        // Önce fotoğrafı sıkıştır (API limiti çok düşük - target 200KB)
-        print('📷 Fotoğraf sıkıştırılıyor...');
+        // Önce fotoğrafı sıkıştır (API limiti çok düşük denemeler yaptım - target 200KB)
+        print(' Fotoğraf sıkıştırılıyor...');
         final compressedPhoto = await ImageHelper.compressImage(
           state.photo!,
-          quality: 40,  // %40 kalite (çok düşük)
-          maxWidth: 600,  // Max 600px genişlik (çok küçük)
-          maxHeight: 600, // Max 600px yükseklik (çok küçük)
+          quality: 40,
+          maxWidth: 600,
+          maxHeight: 600,
         );
         
         // Direkt API'ye dosya gönder (multipart/form-data)
@@ -53,7 +54,6 @@ class ProfilePhotoBloc extends Bloc<ProfilePhotoEvent, ProfilePhotoState> {
         print('Upload photo API response: ${response.statusCode} - $responseBody');
         
         if (response.statusCode == 200) {
-          // Backend'den dönen response'ta photoUrl olabilir
           final data = jsonDecode(responseBody);
           String? photoUrl;
           if (data['data'] != null && data['data']['photoUrl'] != null) {
@@ -66,19 +66,21 @@ class ProfilePhotoBloc extends Bloc<ProfilePhotoEvent, ProfilePhotoState> {
         } else {
           String errorMessage;
           if (response.statusCode == 413) {
-            errorMessage = "📷 Fotoğraf çok büyük!\n\nLütfen daha küçük bir fotoğraf seçin veya fotoğrafınızı sıkıştırın.\n\n💡 İpucu: Telefonunuzdan çekilmiş normal fotoğraflar genelde uygun boyuttadır.";
+            errorMessage = " Fotoğraf çok büyük!\n\nLütfen daha küçük bir fotoğraf seçin veya fotoğrafınızı sıkıştırın.\n\n💡 İpucu: Telefonunuzdan çekilmiş normal fotoğraflar genelde uygun boyuttadır.";
           } else if (response.statusCode == 401) {
-            errorMessage = "🔐 Oturum süresi dolmuş!\n\nLütfen tekrar giriş yapın.";
+            errorMessage = " Oturum süresi dolmuş!\n\nLütfen tekrar giriş yapın.";
           } else if (response.statusCode >= 500) {
-            errorMessage = "🔧 Sunucu hatası!\n\nLütfen daha sonra tekrar deneyin.";
+            errorMessage = " Sunucu hatası!\n\nLütfen daha sonra tekrar deneyin.";
           } else {
-            errorMessage = "❌ Fotoğraf yüklenemedi!\n\nLütfen tekrar deneyin. Hata kodu: ${response.statusCode}";
+            errorMessage = " Fotoğraf yüklenemedi!\n\nLütfen tekrar deneyin. Hata kodu: ${response.statusCode}";
           }
           
           emit(state.copyWith(isLoading: false, error: errorMessage));
         }
       } catch (e) {
-        print('Upload error: $e');
+        if (kDebugMode) {
+          print('Upload error: $e');
+        }
         emit(state.copyWith(isLoading: false, error: "Fotoğraf yüklenemedi: $e"));
       }
     });

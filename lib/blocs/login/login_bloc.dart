@@ -19,7 +19,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await Future.delayed(const Duration(seconds: 1));
       if (state.email == "test@test.com" && state.password == "123456") {
         emit(state.copyWith(isLoading: false, error: null));
-        // Başarılı girişte yönlendirme işlemini view'da yapabilirsin
+        // Başarılı girişte yönlendirme işlemini view'da
       } else {
         emit(state.copyWith(isLoading: false, error: "E-posta veya şifre hatalı"));
       }

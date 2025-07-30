@@ -56,7 +56,7 @@ class RegisterView extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          AppLocalizations.of(context)!.common_welcome,
+                          AppLocalizations.of(context).common_welcome,
                                                       style: AppTextStyles.headline,
                             textAlign: TextAlign.center,
                         ),
@@ -80,7 +80,7 @@ class RegisterView extends StatelessWidget {
                               padding: const EdgeInsets.all(12.0),
                               child: Image.asset(AppIcons.user, width: 24, height: 24),
                             ),
-                            hintText: AppLocalizations.of(context)!.auth_name,
+                            hintText: AppLocalizations.of(context).auth_name,
                             hintStyle: AppTextStyles.hint,
                             filled: true,
                             fillColor: AppColors.inputBackground,
@@ -109,7 +109,7 @@ class RegisterView extends StatelessWidget {
                               padding: const EdgeInsets.all(12.0),
                               child: Image.asset(AppIcons.mail, width: 24, height: 24),
                             ),
-                            hintText: AppLocalizations.of(context)!.auth_email,
+                            hintText: AppLocalizations.of(context).auth_email,
                             hintStyle: AppTextStyles.hint,
                             filled: true,
                             fillColor: AppColors.inputBackground,

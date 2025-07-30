@@ -95,12 +95,12 @@ class MovieDetailView extends StatelessWidget {
             }
 
             if (state is MovieDetailLoaded) {
-              print('🎬 Movie loaded: ${state.movie.title}');
+              print(' Movie loaded: ${state.movie.title}');
               return _buildMovieDetail(context, state.movie);
             }
 
             // Fallback - başlangıç movie'si ile göster
-            print('🎬 Using fallback movie: ${movie.title}');
+            print(' Using fallback movie: ${movie.title}');
             return _buildMovieDetail(context, movie);
           },
         ),

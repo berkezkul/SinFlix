@@ -6,14 +6,14 @@ import '../../utils/constants/text_styles.dart';
 
 Widget buildBonusItem(String assetPath, String title) {
   return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 4.0), // Daha az padding
+    padding: const EdgeInsets.symmetric(horizontal: 4.0),
     child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: 45, // Daha küçük boyut
-          height: 45, // Daha küçük boyut
-          padding: const EdgeInsets.all(8), // Daha az padding
+          width: 45,
+          height: 45,
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: AppColors.bonus,
             shape: BoxShape.circle,
@@ -41,10 +41,9 @@ Widget buildBonusItem(String assetPath, String title) {
             fit: BoxFit.contain,
           ),
         ),
-        const SizedBox(height: 3), // Daha az boşluk
-        // Responsive text with constraints
+        const SizedBox(height: 3),
         ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 70), // Daha küçük metin alanı
+          constraints: const BoxConstraints(maxWidth: 70),
           child: Text(
             title,
             textAlign: TextAlign.center,
@@ -52,9 +51,9 @@ Widget buildBonusItem(String assetPath, String title) {
             overflow: TextOverflow.ellipsis,
             style: AppTextStyles.body.copyWith(
               color: Colors.white,
-              fontSize: 10, // Daha küçük font
+              fontSize: 10,
               fontWeight: FontWeight.w600,
-              height: 1.1, // Daha sıkışık line height
+              height: 1.1,
             ),
           ),
         ),

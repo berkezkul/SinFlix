@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'profile_event.dart';
 import 'profile_state.dart';
@@ -41,31 +42,40 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     if (state is ProfileLoaded) {
       final currentState = state as ProfileLoaded;
       
-      // Loading state'ini göster
       emit(currentState.copyWith(isLoadingFavorites: true));
       
       try {
         final token = await TokenStorage.getToken();
         if (token == null) return;
 
-        print('🎬 Loading favorite movies for profile...');
+        if (kDebugMode) {
+          if (kDebugMode) {
+            print(' Loading favorite movies for profile...');
+          }
+        }
         final favoriteMovies = await movieRepository.getFavoriteMovies(token);
         
         if (favoriteMovies != null) {
-          print('✅ Loaded ${favoriteMovies.length} favorite movies');
+          if (kDebugMode) {
+            print(' Loaded ${favoriteMovies.length} favorite movies');
+          }
           emit(currentState.copyWith(
             favoriteMovies: favoriteMovies,
             isLoadingFavorites: false,
           ));
         } else {
-          print('❌ Failed to load favorite movies');
+          if (kDebugMode) {
+            print(' Failed to load favorite movies');
+          }
           emit(currentState.copyWith(
             favoriteMovies: [],
             isLoadingFavorites: false,
           ));
         }
       } catch (e) {
-        print('❌ Error loading favorite movies: $e');
+        if (kDebugMode) {
+          print(' Error loading favorite movies: $e');
+        }
         emit(currentState.copyWith(
           favoriteMovies: [],
           isLoadingFavorites: false,
