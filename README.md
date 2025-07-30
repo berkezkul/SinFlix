@@ -143,6 +143,16 @@ views/
 │   ├── profile.dart         # Profile Screen
 │   └── add_profile_photo.dart # Photo Upload Screen
 ```
+![Login Page](assets/readme_files/sinflix1.jpg)
+![Register Page](assets/readme_files/sinflix2.jpg)
+![Upload Photo Page](assets/readme_files/sinflix3.jpg)
+![Animation After Upload Photo](assets/readme_files/sinflix4.jpg)
+![Home Page](assets/readme_files/sinflix8.jpg)
+![Profile Page](assets/readme_files/sinflix6.jpg)
+![Movies Page](assets/readme_files/sinflix5.jpg)
+![Movie Detail Page 1](assets/readme_files/sinflix9.jpg)
+![Movie Detail Page 2](assets/readme_files/sinflix10.jpg)
+![Offer Bottom sheet](assets/readme_files/sinflix7.jpg)
 
 ### 3. BLoC Layer
 
