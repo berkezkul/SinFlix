@@ -18,6 +18,10 @@ import '../../views/screens/add_profile_photo.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 
+import '../widgets/bonus_item.dart';
+import '../widgets/discount_badge_overlay.dart';
+import '../widgets/modern_package_card.dart';
+
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
 
@@ -592,10 +596,10 @@ class _ProfileViewState extends State<ProfileView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Expanded(child: _buildBonusItem(OfferAssets.premiumAccount, AppLocalizations.of(context)!.offer_premiumAccount)),
-                        Expanded(child: _buildBonusItem(OfferAssets.moreMatches, AppLocalizations.of(context)!.offer_moreMatches)),
-                        Expanded(child: _buildBonusItem(OfferAssets.putForward, AppLocalizations.of(context)!.offer_putForward)),
-                        Expanded(child: _buildBonusItem(OfferAssets.moreMatches, AppLocalizations.of(context)!.offer_moreBegeniler)),
+                        Expanded(child: buildBonusItem(OfferAssets.premiumAccount, AppLocalizations.of(context)!.offer_premiumAccount)),
+                        Expanded(child: buildBonusItem(OfferAssets.moreMatches, AppLocalizations.of(context)!.offer_moreMatches)),
+                        Expanded(child: buildBonusItem(OfferAssets.putForward, AppLocalizations.of(context)!.offer_putForward)),
+                        Expanded(child: buildBonusItem(OfferAssets.moreMatches, AppLocalizations.of(context)!.offer_moreBegeniler)),
                       ],
                     ),
                   ],
@@ -629,7 +633,7 @@ class _ProfileViewState extends State<ProfileView> {
                               // Ana paket kartları
                               Row(
                                 children: [
-                                  _buildModernPackageCard(
+                                  buildModernPackageCard(
                                     context: context,
                                     index: 0,
                                     jetonsOld: '200',
@@ -640,7 +644,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     isSelected: state.selectedPackageIndex == 0,
                                   ),
                                   const SizedBox(width: 8), // Daha az boşluk
-                                  _buildModernPackageCard(
+                                  buildModernPackageCard(
                                     context: context,
                                     index: 1,
                                     jetonsOld: '2.000',
@@ -651,7 +655,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     isSelected: state.selectedPackageIndex == 1,
                                   ),
                                   const SizedBox(width: 8), // Daha az boşluk
-                                  _buildModernPackageCard(
+                                  buildModernPackageCard(
                                     context: context,
                                     index: 2,
                                     jetonsOld: '1.000',
@@ -665,9 +669,9 @@ class _ProfileViewState extends State<ProfileView> {
                               ),
                               
                               // Overlay discount badges
-                              _buildDiscountBadgeOverlay(0, '+10%', AppColors.offer_package2),
-                              _buildDiscountBadgeOverlay(1, '+70%', AppColors.offer_package2),
-                              _buildDiscountBadgeOverlay(2, '+35%', AppColors.offer_package2),
+                              buildDiscountBadgeOverlay(0, '+10%', AppColors.offer_package2, context),
+                              buildDiscountBadgeOverlay(1, '+70%', AppColors.offer_package2, context),
+                              buildDiscountBadgeOverlay(2, '+35%', AppColors.offer_package2, context),
                             ],
                           );
                         },
@@ -718,224 +722,8 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  Widget _buildBonusItem(String assetPath, String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4.0), // Daha az padding
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            width: 45, // Daha küçük boyut
-            height: 45, // Daha küçük boyut
-            padding: const EdgeInsets.all(8), // Daha az padding
-            decoration: BoxDecoration(
-              color: AppColors.bonus,
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Colors.white.withOpacity(0.3),
-                width: 1.5,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.white.withOpacity(0.2),
-                  blurRadius: 8,
-                  spreadRadius: 0,
-                  offset: const Offset(0, 0),
-                ),
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.4),
-                  blurRadius: 12,
-                  spreadRadius: 0,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            child: Image.asset(
-              assetPath,
-              fit: BoxFit.contain,
-            ),
-          ),
-          const SizedBox(height: 3), // Daha az boşluk
-          // Responsive text with constraints
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 70), // Daha küçük metin alanı
-            child: Text(
-              title,
-              textAlign: TextAlign.center,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: AppTextStyles.body.copyWith(
-                color: Colors.white,
-                fontSize: 10, // Daha küçük font
-                fontWeight: FontWeight.w600,
-                height: 1.1, // Daha sıkışık line height
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildDiscountBadgeOverlay(int index, String discount, Color color) {
-    // Her paket için yaklaşık pozisyon hesapla (Expanded widget'lar için)
-    double screenWidth = MediaQuery.of(context).size.width - 32; // Padding çıkart
-    double cardWidth = (screenWidth - 16) / 3; // 3 card, 2x8 gap
-    double leftPosition = 16 + (index * (cardWidth + 8)) + 8; // Her kartın sol kenarından biraz içeride
-    
-    return Positioned(
-      top: -8,
-      left: leftPosition,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.3),
-              blurRadius: 8,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Text(
-          discount,
-          style: AppTextStyles.body.copyWith(
-            color: Colors.white,
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
 
-  Widget _buildModernPackageCard({
-    required BuildContext context,
-    required int index,
-    required String jetonsOld,
-    required String jetonsNew,
-    required String price,
-    required String discount,
-    required Color discountColor,
-    required bool isSelected,
-  }) {
-    // Gradient renklerini belirle
-    List<Color> gradientColors;
-    if (index == 1) {
-      // 2. paket (ortadaki): offer_package2 → offer_package3
-      gradientColors = [AppColors.offer_package2, AppColors.offer_package3];
-    } else {
-      // 1. ve 3. paket: offer_package1 → offer_package2
-      gradientColors = [AppColors.offer_package1, AppColors.offer_package2];
-    }
-    
-    return Expanded(
-      child: GestureDetector(
-        onTap: () {
-          context.read<OfferBloc>().add(SelectPackage(index));
-        },
-        child: Container(
-          height: 200,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: gradientColors,
-            ),
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(
-              color: isSelected ? Colors.white : Colors.transparent,
-              width: 2,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.3),
-                blurRadius: 15,
-                offset: const Offset(0, 8),
-              ),
-            ],
-          ),
-          child: Stack(
-            children: [
-              // Ana içerik
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween, // İçeriği dağıt
-                  children: [
-                    // Üst kısım
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        // Üstte boşluk bırak discount badge için
-                        const SizedBox(height: 20),
-              
-              Text(
-                jetonsOld,
-                style: AppTextStyles.headline.copyWith(
-                  color: Colors.white,
-                  fontSize: 16, // Daha küçük font
-                  fontWeight: FontWeight.w600,
-                  decoration: TextDecoration.lineThrough,
-                  decorationColor: Colors.white.withOpacity(0.6),
-                  decorationThickness: 2,
-                ),
-              ),
-              
-              Text(
-                jetonsNew,
-                style: AppTextStyles.headline.copyWith(
-                  color: Colors.white,
-                  fontSize: 22, // Daha küçük font
-                  fontWeight: FontWeight.w900,
-                ),
-              ),
-              
-              Text(
-                'Jeton',
-                style: AppTextStyles.body.copyWith(
-                  color: Colors.white,
-                  fontSize: 13, // Daha küçük font
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-                      ],
-                    ),
-                    
-                    // Alt kısım - Fiyat bilgileri
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          price,
-                          style: AppTextStyles.headline.copyWith(
-                            color: Colors.white,
-                            fontSize: 14, // Daha küçük font
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        
-                        Text(
-                          AppLocalizations.of(context)!.offer_weeklyPrice,
-                          style: AppTextStyles.body.copyWith(
-                            color: Colors.white.withOpacity(0.8),
-                            fontSize: 9, // Daha küçük font
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              
-              
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+
+
 } 

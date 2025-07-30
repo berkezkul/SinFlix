@@ -10,6 +10,7 @@ import '../../repositories/user_repository.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/text_styles.dart';
 import '../../utils/constants/icons.dart';
+import '../widgets/social_button.dart';
 import 'add_profile_photo.dart';
 import '../../utils/helpers/token_storage.dart';
 import '../../l10n/generated/app_localizations.dart';
@@ -297,9 +298,9 @@ class RegisterView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            _SocialButton(iconPath: AppIcons.google),
-                            _SocialButton(iconPath: AppIcons.apple),
-                            _SocialButton(iconPath: AppIcons.facebook),
+                            SocialButton(iconPath: AppIcons.google),
+                            SocialButton(iconPath: AppIcons.apple),
+                            SocialButton(iconPath: AppIcons.facebook),
                           ],
                         ),
                         const SizedBox(height: 24),
@@ -339,22 +340,3 @@ class RegisterView extends StatelessWidget {
   }
 }
 
-class _SocialButton extends StatelessWidget {
-  final String iconPath;
-  const _SocialButton({required this.iconPath});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 56,
-      height: 56,
-      decoration: BoxDecoration(
-        color: AppColors.socialButton,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Center(
-        child: Image.asset(iconPath, width: 24, height: 24),
-      ),
-    );
-  }
-}
