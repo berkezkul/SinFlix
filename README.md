@@ -147,59 +147,35 @@ views/
 ```
 <h2>Ekran Görüntüleri</h2>
 
-<div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 15px;">
+<h3>Giriş Sayfası</h3>
+<img src="assets/readme_files/sinflix1.jpg" alt="SinFlix Giriş Sayfası" width="600">
 
-    <div style="text-align: center;">
-        <h3>Giriş Sayfası</h3>
-        <img src="assets/readme_files/sinflix1.jpg" alt="SinFlix Giriş Sayfası" width="350">
-    </div>
+<h3>Kayıt Sayfası</h3>
+<img src="assets/readme_files/sinflix2.jpg" alt="SinFlix Kayıt Sayfası" width="600">
 
-    <div style="text-align: center;">
-        <h3>Kayıt Sayfası</h3>
-        <img src="assets/readme_files/sinflix2.jpg" alt="SinFlix Kayıt Sayfası" width="350">
-    </div>
+<h3>Profil Fotoğrafı Yükleme Sayfası</h3>
+<img src="assets/readme_files/sinflix3.jpg" alt="SinFlix Profil Fotoğrafı Yükleme Sayfası" width="600">
 
-    <div style="text-align: center;">
-        <h3>Profil Fotoğrafı Yükleme Sayfası</h3>
-        <img src="assets/readme_files/sinflix3.jpg" alt="SinFlix Profil Fotoğrafı Yükleme Sayfası" width="350">
-    </div>
+<h3>Fotoğraf Yükledikten Sonra Animasyon</h3>
+<img src="assets/readme_files/sinflix4.jpg" alt="SinFlix Fotoğraf Yükledikten Sonra Animasyon" width="600">
 
-    <div style="text-align: center;">
-        <h3>Fotoğraf Yükledikten Sonra Animasyon</h3>
-        <img src="assets/readme_files/sinflix4.jpg" alt="SinFlix Fotoğraf Yükledikten Sonra Animasyon" width="350">
-    </div>
+<h3>Ana Sayfa</h3>
+<img src="assets/readme_files/sinflix8.jpg" alt="SinFlix Ana Sayfa" width="600">
 
-    <div style="text-align: center;">
-        <h3>Ana Sayfa</h3>
-        <img src="assets/readme_files/sinflix8.jpg" alt="SinFlix Ana Sayfa" width="350">
-    </div>
+<h3>Profil Sayfası</h3>
+<img src="assets/readme_files/sinflix6.jpg" alt="SinFlix Profil Sayfası" width="600">
 
-    <div style="text-align: center;">
-        <h3>Profil Sayfası</h3>
-        <img src="assets/readme_files/sinflix6.jpg" alt="SinFlix Profil Sayfası" width="350">
-    </div>
+<h3>Filmler Sayfası</h3>
+<img src="assets/readme_files/sinflix5.jpg" alt="SinFlix Filmler Sayfası" width="600">
 
-    <div style="text-align: center;">
-        <h3>Filmler Sayfası</h3>
-        <img src="assets/readme_files/sinflix5.jpg" alt="SinFlix Filmler Sayfası" width="350">
-    </div>
+<h3>Film Detay Sayfası 1</h3>
+<img src="assets/readme_files/sinflix9.jpg" alt="SinFlix Film Detay Sayfası Bölüm 1" width="600">
 
-    <div style="text-align: center;">
-        <h3>Film Detay Sayfası 1</h3>
-        <img src="assets/readme_files/sinflix9.jpg" alt="SinFlix Film Detay Sayfası Bölüm 1" width="350">
-    </div>
+<h3>Film Detay Sayfası 2</h3>
+<img src="assets/readme_files/sinflix10.jpg" alt="SinFlix Film Detay Sayfası Bölüm 2" width="600">
 
-    <div style="text-align: center;">
-        <h3>Film Detay Sayfası 2</h3>
-        <img src="assets/readme_files/sinflix10.jpg" alt="SinFlix Film Detay Sayfası Bölüm 2" width="350">
-    </div>
-
-    <div style="text-align: center;">
-        <h3>Teklif Alt Sayfası (Bottom Sheet)</h3>
-        <img src="assets/readme_files/sinflix7.jpg" alt="SinFlix Sınırlı Teklif Bottom Sheet" width="350">
-    </div>
-
-</div>
+<h3>Teklif Alt Sayfası (Bottom Sheet)</h3>
+<img src="assets/readme_files/sinflix7.jpg" alt="SinFlix Sınırlı Teklif Bottom Sheet" width="600">
 ```
 
 
