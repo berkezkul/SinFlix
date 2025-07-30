@@ -196,8 +196,12 @@ views/
         <h3>Teklif Alt Sayfası (Bottom Sheet)</h3>
         <img src="assets/readme_files/sinflix7.jpg" alt="SinFlix Sınırlı Teklif Bottom Sheet" width="350">
     </div>
+```
 
-</div>### 3. BLoC Layer
+
+
+
+### 3. BLoC Layer
 
 #### Authentication BLoC
 ```dart
