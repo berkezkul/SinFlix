@@ -568,12 +568,9 @@ flutter_launcher_icons:
 - ✅ **Multi-language Support** (TR/EN)
 
 ### Advanced Features
-- ✅ **Offline Support** with local storage
-- ✅ **Push Notifications** (Firebase)
 - ✅ **Analytics Tracking** (Firebase Analytics)
 - ✅ **Crash Reporting** (Firebase Crashlytics)
 - ✅ **Responsive Design** for all screen sizes
-- ✅ **Dark Theme** with custom colors
 
 ### Technical Features
 - ✅ **MVVM Architecture** with BLoC pattern
