@@ -143,61 +143,25 @@ views/
 │   ├── profile.dart         # Profile Screen
 │   └── add_profile_photo.dart # Photo Upload Screen
 ```
-<h2>Ekran Görüntüleri</h2>
+![Login Page](assets/readme_files/sinflix1.jpg)
 
-<div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 15px;">
+![Register Page](assets/readme_files/sinflix2.jpg)
 
-    <div style="text-align: center;">
-        <h3>Giriş Sayfası</h3>
-        <img src="assets/readme_files/sinflix1.jpg" alt="SinFlix Giriş Sayfası" width="350">
-    </div>
+![Upload Photo Page](assets/readme_files/sinflix3.jpg)
 
-    <div style="text-align: center;">
-        <h3>Kayıt Sayfası</h3>
-        <img src="assets/readme_files/sinflix2.jpg" alt="SinFlix Kayıt Sayfası" width="350">
-    </div>
+![Animation After Upload Photo](assets/readme_files/sinflix4.jpg)
 
-    <div style="text-align: center;">
-        <h3>Profil Fotoğrafı Yükleme Sayfası</h3>
-        <img src="assets/readme_files/sinflix3.jpg" alt="SinFlix Profil Fotoğrafı Yükleme Sayfası" width="350">
-    </div>
+![Home Page](assets/readme_files/sinflix8.jpg)
 
-    <div style="text-align: center;">
-        <h3>Fotoğraf Yükledikten Sonra Animasyon</h3>
-        <img src="assets/readme_files/sinflix4.jpg" alt="SinFlix Fotoğraf Yükledikten Sonra Animasyon" width="350">
-    </div>
+![Profile Page](assets/readme_files/sinflix6.jpg)
 
-    <div style="text-align: center;">
-        <h3>Ana Sayfa</h3>
-        <img src="assets/readme_files/sinflix8.jpg" alt="SinFlix Ana Sayfa" width="350">
-    </div>
+![Movies Page](assets/readme_files/sinflix5.jpg)
 
-    <div style="text-align: center;">
-        <h3>Profil Sayfası</h3>
-        <img src="assets/readme_files/sinflix6.jpg" alt="SinFlix Profil Sayfası" width="350">
-    </div>
+![Movie Detail Page 1](assets/readme_files/sinflix9.jpg)
 
-    <div style="text-align: center;">
-        <h3>Filmler Sayfası</h3>
-        <img src="assets/readme_files/sinflix5.jpg" alt="SinFlix Filmler Sayfası" width="350">
-    </div>
+![Movie Detail Page 2](assets/readme_files/sinflix10.jpg)
 
-    <div style="text-align: center;">
-        <h3>Film Detay Sayfası 1</h3>
-        <img src="assets/readme_files/sinflix9.jpg" alt="SinFlix Film Detay Sayfası Bölüm 1" width="350">
-    </div>
-
-    <div style="text-align: center;">
-        <h3>Film Detay Sayfası 2</h3>
-        <img src="assets/readme_files/sinflix10.jpg" alt="SinFlix Film Detay Sayfası Bölüm 2" width="350">
-    </div>
-
-    <div style="text-align: center;">
-        <h3>Teklif Alt Sayfası (Bottom Sheet)</h3>
-        <img src="assets/readme_files/sinflix7.jpg" alt="SinFlix Sınırlı Teklif Bottom Sheet" width="350">
-    </div>
-
-</div>
+![Offer Bottom sheet](assets/readme_files/sinflix7.jpg)
 
 
 ### 3. BLoC Layer
