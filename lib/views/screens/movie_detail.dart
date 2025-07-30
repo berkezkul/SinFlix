@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/movie_detail/movie_detail_bloc.dart';
 import '../../blocs/movie_detail/movie_detail_event.dart';
 import '../../blocs/movie_detail/movie_detail_state.dart';
+import '../../blocs/profile/profile_bloc.dart';
 import '../../repositories/movie_repository.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/text_styles.dart';
@@ -18,7 +19,11 @@ class MovieDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MovieDetailBloc(MovieRepository(), movie),
+      create: (_) {
+        // ProfileBloc'u context'ten al
+        final profileBloc = context.read<ProfileBloc>();
+        return MovieDetailBloc(MovieRepository(), movie, profileBloc: profileBloc);
+      },
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
@@ -272,25 +277,38 @@ class MovieDetailView extends StatelessWidget {
                       BlocBuilder<MovieDetailBloc, MovieDetailState>(
                         builder: (context, state) {
                           if (state is MovieDetailLoaded) {
-                            return ElevatedButton.icon(
-                              onPressed: () {
-                                context.read<MovieDetailBloc>().add(ToggleMovieFavorite(movie.id));
-                              },
-                              icon: Icon(
-                                state.movie.isFavorite ? Icons.favorite : Icons.favorite_border,
-                                color: Colors.white,
-                              ),
-                              label: Text(
-                                state.movie.isFavorite 
-                          ? AppLocalizations.of(context)!.movies_removeFromFavorites
-                          : AppLocalizations.of(context)!.movies_addToFavorites,
-                                style: AppTextStyles.button.copyWith(color: Colors.white),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: state.movie.isFavorite ? AppColors.red : Colors.transparent,
-                                side: BorderSide(color: AppColors.red),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
+                            return Container(
+                              width: double.infinity,
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  context.read<MovieDetailBloc>().add(ToggleMovieFavorite(movie.id));
+                                },
+                                icon: Icon(
+                                  state.movie.isFavorite ? Icons.favorite : Icons.favorite_border,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                                label: Flexible(
+                                  child: Text(
+                                    state.movie.isFavorite 
+                                        ? AppLocalizations.of(context)!.movies_removeFromFavorites
+                                        : AppLocalizations.of(context)!.movies_addToFavorites,
+                                    style: AppTextStyles.button.copyWith(
+                                      color: Colors.white,
+                                      fontSize: 12,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: state.movie.isFavorite ? AppColors.red : Colors.transparent,
+                                  side: BorderSide(color: AppColors.red),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                                 ),
                               ),
                             );

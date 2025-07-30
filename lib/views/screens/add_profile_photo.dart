@@ -10,6 +10,7 @@ import '../../utils/constants/colors.dart';
 import '../../utils/constants/text_styles.dart';
 import '../../utils/constants/icons.dart';
 import '../../l10n/generated/app_localizations.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class ProfilePhotoView extends StatelessWidget {
   const ProfilePhotoView({super.key});
@@ -38,9 +39,27 @@ class ProfilePhotoView extends StatelessWidget {
       child: BlocListener<ProfilePhotoBloc, ProfilePhotoState>(
         listener: (context, state) async {
           if (state.isLoading == false && state.error == null && state.photoUrl != null) {
+            // Analytics event: Fotoğraf başarıyla yüklendi
+            FirebaseAnalytics.instance.logEvent(
+              name: 'profile_photo_uploaded',
+              parameters: {
+                'success': true,
+                'timestamp': DateTime.now().millisecondsSinceEpoch,
+              },
+            );
+            
             // Navigation Service zaten ProfilePhotoBloc'da handle ediliyor
             // Burada tekrar yapmaya gerek yok
           } else if (state.error != null) {
+            // Analytics event: Fotoğraf yükleme hatası
+            FirebaseAnalytics.instance.logEvent(
+              name: 'profile_photo_upload_error',
+              parameters: {
+                'error_message': state.error!,
+                'timestamp': DateTime.now().millisecondsSinceEpoch,
+              },
+            );
+            
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.error!)),
             );

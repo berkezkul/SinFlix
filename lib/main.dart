@@ -19,20 +19,27 @@ import 'blocs/language/language_bloc.dart';
 import 'blocs/language/language_event.dart';
 import 'blocs/language/language_state.dart';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  
-  // Logger Service'i initialize et
+
+  //logger service
   await logger.initialize();
   
-  // Flutter'ın kendi splash'ini devre dışı bırak
+  // Flutter'ın kendi splash'ini devre dışı bırakmak için
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       systemNavigationBarColor: Colors.black,
     ),
   );
+
+  //Firebase Crashlytics & Analytics
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
   
   runApp(const MyApp());
 }

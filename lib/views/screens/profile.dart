@@ -15,6 +15,8 @@ import '../../repositories/movie_repository.dart';
 import '../../views/screens/movie_detail.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../../views/screens/add_profile_photo.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({super.key});
@@ -68,7 +70,7 @@ class _ProfileViewState extends State<ProfileView> {
                       ),
                     ),
                     child: Text(
-                      AppLocalizations.of(context)!.offer_limitedOffer,
+                      AppLocalizations.of(context).offer_limitedOffer,
                       style: AppTextStyles.button.copyWith(
                         color: Colors.white,
                         fontSize: 12,
@@ -250,6 +252,26 @@ class _ProfileViewState extends State<ProfileView> {
                             ),
                           ),
                         ),
+                        
+                        // Debug modunda crash test butonu
+                        if (kDebugMode)
+                          GestureDetector(
+                            onTap: () {
+                              FirebaseCrashlytics.instance.crash();
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.red.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Icon(
+                                Icons.bug_report,
+                                color: Colors.red,
+                                size: 20,
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                     
@@ -323,7 +345,10 @@ class _ProfileViewState extends State<ProfileView> {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => MovieDetailView(movie: movie),
+                                builder: (context) => BlocProvider.value(
+                                  value: context.read<ProfileBloc>(),
+                                  child: MovieDetailView(movie: movie),
+                                ),
                               ),
                             );
                           },

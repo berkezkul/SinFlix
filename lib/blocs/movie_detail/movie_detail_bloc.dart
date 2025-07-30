@@ -4,12 +4,15 @@ import 'movie_detail_state.dart';
 import '../../repositories/movie_repository.dart';
 import '../../utils/helpers/token_storage.dart';
 import '../../models/movie.dart';
+import '../profile/profile_bloc.dart';
+import '../profile/profile_event.dart';
 
 class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
   final MovieRepository movieRepository;
   final Movie initialMovie;
+  final ProfileBloc? profileBloc; // ProfileBloc referansı
 
-  MovieDetailBloc(this.movieRepository, this.initialMovie) : super(MovieDetailLoaded(initialMovie)) {
+  MovieDetailBloc(this.movieRepository, this.initialMovie, {this.profileBloc}) : super(MovieDetailLoaded(initialMovie)) {
     on<ToggleMovieFavorite>(_onToggleMovieFavorite);
   }
 
@@ -36,7 +39,11 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
         
         if (success) {
           print('🎬 Favorite toggled successfully: ${optimisticMovie.isFavorite}');
-          // Optimistic update zaten yapıldı, başarılıysa bırak
+          // ProfileBloc'u da güncelle
+          if (profileBloc != null) {
+            profileBloc!.add(LoadFavoriteMovies());
+            print('🔄 ProfileBloc updated with new favorites');
+          }
         } else {
           print('❌ Failed to toggle favorite - reverting');
           // Başarısızsa geri al
