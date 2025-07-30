@@ -57,7 +57,7 @@ dev_dependencies:
   
   # App Icon & Splash Screen
   flutter_launcher_icons: ^0.14.1
-  flutter_native_splash: ^2.4.1
+  #flutter_native_splash: ^2.4.1
   
   # Localization
   flutter_localizations:
@@ -135,24 +135,5 @@ flutter_launcher_icons:
     image_path: "assets/images/SinFlixIcon.png"
     icon_size: 48 # min:48, max:256, default: 48
 
-# Flutter Native Splash configuration
-flutter_native_splash:
-  # Tam ekran arkaplan resmi
-  background_image: "assets/images/splash/SinFlixSplash.png"
-  background_image_dark: "assets/images/splash/SinFlixSplash.png"
-  
-  # Fallback renk
-  color: "#000000"
-  color_dark: "#000000"
-  
-  # Android 12+ tam ekran
-  android_12:
-    background_image: "assets/images/splash/SinFlixSplash.png"
-    background_image_dark: "assets/images/splash/SinFlixSplash.png"
-    color: "#000000"
-    color_dark: "#000000"
-  
-  # Tam ekran ayarları
-  fullscreen: true
-  
-  web: false
+
+

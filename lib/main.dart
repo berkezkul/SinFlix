@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sinflix/views/screens/login.dart';
@@ -7,6 +8,7 @@ import 'package:sinflix/views/screens/register.dart';
 import 'package:sinflix/views/screens/add_profile_photo.dart';
 import 'package:sinflix/views/screens/profile.dart';
 import 'package:sinflix/views/screens/movies.dart';
+import 'package:sinflix/views/screens/splash.dart';
 import 'utils/constants/theme.dart';
 import 'utils/constants/routes.dart';
 import 'services/navigation_service.dart';
@@ -23,6 +25,14 @@ Future<void> main() async {
   
   // Logger Service'i initialize et
   await logger.initialize();
+  
+  // Flutter'ın kendi splash'ini devre dışı bırak
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.black,
+    ),
+  );
   
   runApp(const MyApp());
 }
@@ -45,10 +55,9 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             title: 'SinFlix',
             theme: appTheme,
-            home: const LoginView(),
+            home: const SplashScreen(),
             debugShowCheckedModeBanner: false,
             navigatorKey: NavigationService.instance.navigatorKey,
-            initialRoute: AppRoutes.login,
             
             // Dynamic locale
             locale: currentLocale,
