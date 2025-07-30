@@ -426,6 +426,7 @@ class AppTextStyles {
 
 ### Animations
 - **Lottie animations** for loading states
+- ![Popcorn Animation:](assets/readme_files/popcorn.gif)
 
 ## 🔥 Firebase Integration
 
