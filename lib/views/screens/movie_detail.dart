@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../blocs/movie_detail/movie_detail_bloc.dart';
 import '../../blocs/movie_detail/movie_detail_event.dart';
 import '../../blocs/movie_detail/movie_detail_state.dart';
-import '../../blocs/profile/profile_bloc.dart';
 import '../../repositories/movie_repository.dart';
 import '../../utils/constants/colors.dart';
 import '../../utils/constants/text_styles.dart';
@@ -19,11 +18,7 @@ class MovieDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) {
-        // ProfileBloc'u context'ten al
-        final profileBloc = context.read<ProfileBloc>();
-        return MovieDetailBloc(MovieRepository(), movie, profileBloc: profileBloc);
-      },
+      create: (_) => MovieDetailBloc(MovieRepository(), movie),
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(

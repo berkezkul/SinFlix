@@ -252,26 +252,6 @@ class _ProfileViewState extends State<ProfileView> {
                             ),
                           ),
                         ),
-                        
-                        // Debug modunda crash test butonu
-                        if (kDebugMode)
-                          GestureDetector(
-                            onTap: () {
-                              FirebaseCrashlytics.instance.crash();
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: Colors.red.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Icon(
-                                Icons.bug_report,
-                                color: Colors.red,
-                                size: 20,
-                              ),
-                            ),
-                          ),
                       ],
                     ),
                     
@@ -345,10 +325,7 @@ class _ProfileViewState extends State<ProfileView> {
                           onTap: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => BlocProvider.value(
-                                  value: context.read<ProfileBloc>(),
-                                  child: MovieDetailView(movie: movie),
-                                ),
+                                builder: (context) => MovieDetailView(movie: movie),
                               ),
                             );
                           },
@@ -526,7 +503,7 @@ class _ProfileViewState extends State<ProfileView> {
       builder: (modalContext) => BlocProvider.value(
         value: offerBloc, // Direkt instance geçir
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.82, // Biraz daha küçük yap
+          height: MediaQuery.of(context).size.height * 0.8, // Daha küçük yap
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topRight,
@@ -580,13 +557,13 @@ class _ProfileViewState extends State<ProfileView> {
               
               // Alacağınız Bonuslar Kısmı
               Container(
-                //margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16), // Daha fazla padding
+                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8), // Daha az margin
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12), // Daha az padding
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.4), // Biraz daha koyu
-                  borderRadius: BorderRadius.circular(20), // Daha yumuşak köşeler
+                  color: Colors.black.withOpacity(0.4),
+                  borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.2), // Biraz daha belirgin border
+                    color: Colors.white.withOpacity(0.2),
                     width: 1,
                   ),
                   boxShadow: [
@@ -605,11 +582,11 @@ class _ProfileViewState extends State<ProfileView> {
                       AppLocalizations.of(context)!.offer_yourBonuses,
                       style: AppTextStyles.headline.copyWith(
                         color: Colors.white,
-                        fontSize: 15,
+                        fontSize: 14, // Daha küçük font
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 20), // Daha fazla boşluk
+                    const SizedBox(height: 12), // Daha az boşluk
                     
                     // 4 bonus item yan yana - responsive
                     Row(
@@ -630,7 +607,7 @@ class _ProfileViewState extends State<ProfileView> {
               // Paket Seçimi
               Expanded(
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 16), // Daha az padding
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
@@ -638,11 +615,11 @@ class _ProfileViewState extends State<ProfileView> {
                         AppLocalizations.of(context).offer_selectPackage,
                         style: AppTextStyles.body.copyWith(
                           color: Colors.white,
-                          fontSize: 15,
+                          fontSize: 14, // Daha küçük font
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 12), // Daha az boşluk
                       
                                             BlocBuilder<OfferBloc, OfferState>(
                         builder: (context, state) {
@@ -662,7 +639,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     discountColor: AppColors.offer_package2,
                                     isSelected: state.selectedPackageIndex == 0,
                                   ),
-                                  const SizedBox(width: 12),
+                                  const SizedBox(width: 8), // Daha az boşluk
                                   _buildModernPackageCard(
                                     context: context,
                                     index: 1,
@@ -673,7 +650,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     discountColor: AppColors.offer_package3,
                                     isSelected: state.selectedPackageIndex == 1,
                                   ),
-                                  const SizedBox(width: 12),
+                                  const SizedBox(width: 8), // Daha az boşluk
                                   _buildModernPackageCard(
                                     context: context,
                                     index: 2,
@@ -696,12 +673,12 @@ class _ProfileViewState extends State<ProfileView> {
                         },
                       ),
                       
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 12), // Daha az boşluk
                       
                       // Satın al butonu
                       SizedBox(
                         width: double.infinity,
-                        height: 50,
+                        height: 45, // Daha küçük yükseklik
                         child: ElevatedButton(
                           onPressed: () {
                             Navigator.of(context).pop();
@@ -722,14 +699,14 @@ class _ProfileViewState extends State<ProfileView> {
                             AppLocalizations.of(context)!.offer_seeAllTokens,
                             style: AppTextStyles.button.copyWith(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 14, // Daha küçük font
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
                       
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 16), // Daha az boşluk
                     ],
                   ),
                 ),
@@ -743,14 +720,14 @@ class _ProfileViewState extends State<ProfileView> {
 
   Widget _buildBonusItem(String assetPath, String title) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 6.0), // Biraz daha geniş padding
+      padding: const EdgeInsets.symmetric(horizontal: 4.0), // Daha az padding
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 55,
-            height: 55,
-            padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 16), // Daha büyük içerik için daha fazla padding
+            width: 45, // Daha küçük boyut
+            height: 45, // Daha küçük boyut
+            padding: const EdgeInsets.all(8), // Daha az padding
             decoration: BoxDecoration(
               color: AppColors.bonus,
               shape: BoxShape.circle,
@@ -763,26 +740,25 @@ class _ProfileViewState extends State<ProfileView> {
                   color: Colors.white.withOpacity(0.2),
                   blurRadius: 8,
                   spreadRadius: 0,
-                  offset: const Offset(0, 0), // Inner glow
+                  offset: const Offset(0, 0),
                 ),
                 BoxShadow(
                   color: Colors.black.withOpacity(0.4),
                   blurRadius: 12,
                   spreadRadius: 0,
-                  offset: const Offset(0, 4), // Daha belirgin shadow
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
             child: Image.asset(
               assetPath,
               fit: BoxFit.contain,
-              // color: Colors.white, // Bu satırı kaldırdık - orijinal renkler korunacak
             ),
           ),
-          const SizedBox(height: 4), // Daha fazla boşluk
+          const SizedBox(height: 3), // Daha az boşluk
           // Responsive text with constraints
           ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 80), // Daha geniş metin alanı
+            constraints: const BoxConstraints(maxWidth: 70), // Daha küçük metin alanı
             child: Text(
               title,
               textAlign: TextAlign.center,
@@ -790,9 +766,9 @@ class _ProfileViewState extends State<ProfileView> {
               overflow: TextOverflow.ellipsis,
               style: AppTextStyles.body.copyWith(
                 color: Colors.white,
-                fontSize: 11, // Biraz daha büyük font
+                fontSize: 10, // Daha küçük font
                 fontWeight: FontWeight.w600,
-                height: 1.2, // Daha rahat line height
+                height: 1.1, // Daha sıkışık line height
               ),
             ),
           ),
@@ -803,9 +779,9 @@ class _ProfileViewState extends State<ProfileView> {
 
   Widget _buildDiscountBadgeOverlay(int index, String discount, Color color) {
     // Her paket için yaklaşık pozisyon hesapla (Expanded widget'lar için)
-    double screenWidth = MediaQuery.of(context).size.width - 40; // Padding çıkart
-    double cardWidth = (screenWidth - 24) / 3; // 3 card, 2x12 gap
-    double leftPosition = 20 + (index * (cardWidth + 12)) + 12; // Her kartın sol kenarından biraz içeride
+    double screenWidth = MediaQuery.of(context).size.width - 32; // Padding çıkart
+    double cardWidth = (screenWidth - 16) / 3; // 3 card, 2x8 gap
+    double leftPosition = 16 + (index * (cardWidth + 8)) + 8; // Her kartın sol kenarından biraz içeride
     
     return Positioned(
       top: -8,
@@ -861,7 +837,7 @@ class _ProfileViewState extends State<ProfileView> {
           context.read<OfferBloc>().add(SelectPackage(index));
         },
         child: Container(
-          height: 220,
+          height: 200,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -901,7 +877,7 @@ class _ProfileViewState extends State<ProfileView> {
                 jetonsOld,
                 style: AppTextStyles.headline.copyWith(
                   color: Colors.white,
-                  fontSize: 18,
+                  fontSize: 16, // Daha küçük font
                   fontWeight: FontWeight.w600,
                   decoration: TextDecoration.lineThrough,
                   decorationColor: Colors.white.withOpacity(0.6),
@@ -913,19 +889,19 @@ class _ProfileViewState extends State<ProfileView> {
                 jetonsNew,
                 style: AppTextStyles.headline.copyWith(
                   color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w900, // Black weight (900) - Figma'daki gibi
+                  fontSize: 22, // Daha küçük font
+                  fontWeight: FontWeight.w900,
                 ),
               ),
               
-                                      Text(
-                          'Jeton',
-                          style: AppTextStyles.body.copyWith(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
+              Text(
+                'Jeton',
+                style: AppTextStyles.body.copyWith(
+                  color: Colors.white,
+                  fontSize: 13, // Daha küçük font
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
                       ],
                     ),
                     
@@ -937,7 +913,7 @@ class _ProfileViewState extends State<ProfileView> {
                           price,
                           style: AppTextStyles.headline.copyWith(
                             color: Colors.white,
-                            fontSize: 16,
+                            fontSize: 14, // Daha küçük font
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -946,7 +922,7 @@ class _ProfileViewState extends State<ProfileView> {
                           AppLocalizations.of(context)!.offer_weeklyPrice,
                           style: AppTextStyles.body.copyWith(
                             color: Colors.white.withOpacity(0.8),
-                            fontSize: 10,
+                            fontSize: 9, // Daha küçük font
                           ),
                         ),
                       ],
