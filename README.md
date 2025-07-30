@@ -519,26 +519,6 @@ flutter_launcher_icons:
   adaptive_icon_foreground: "assets/images/SinFlixLogoWithoutBg.png"
 ```
 
-## 🧪 Testing Strategy
-
-### Unit Tests
-```dart
-// Test BLoC logic
-group('MovieBloc', () {
-  test('initial state is MovieInitial', () {
-    expect(MovieBloc(MovieRepository()).state, isA<MovieInitial>());
-  });
-});
-```
-
-### Widget Tests
-```dart
-// Test UI components
-testWidgets('MovieCard displays movie title', (WidgetTester tester) async {
-  await tester.pumpWidget(MovieCard(movie: testMovie));
-  expect(find.text(testMovie.title), findsOneWidget);
-});
-```
 
 ## 📊 Performance Optimization
 
