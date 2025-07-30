@@ -142,7 +142,9 @@ views/
 │   ├── movie_detail.dart    # Movie Detail Screen
 │   ├── profile.dart         # Profile Screen
 │   └── add_profile_photo.dart # Photo Upload Screen
-```
+
+
+
 <h2>Ekran Görüntüleri</h2>
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 15px;">
@@ -196,6 +198,8 @@ views/
         <h3>Teklif Alt Sayfası (Bottom Sheet)</h3>
         <img src="assets/readme_files/sinflix7.jpg" alt="SinFlix Sınırlı Teklif Bottom Sheet" width="350">
     </div>
+
+</div>
 ```
 
 
