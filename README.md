@@ -142,9 +142,9 @@ views/
 │   ├── movie_detail.dart    # Movie Detail Screen
 │   ├── profile.dart         # Profile Screen
 │   └── add_profile_photo.dart # Photo Upload Screen
+```
 
-
-
+```
 <h2>Ekran Görüntüleri</h2>
 
 <div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 15px;">
@@ -201,8 +201,6 @@ views/
 
 </div>
 ```
-
-
 
 
 ### 3. BLoC Layer
